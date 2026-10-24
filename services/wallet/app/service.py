@@ -102,3 +102,17 @@ def deduct(wallet_id: int, amount: int, reference_id: str) -> dict:
     except IntegrityError:
         # same reference again: rolled back, return original
         return _replay(wallet_id, "DEDUCT", reference_id)
+
+
+def list_ledger(wallet_id: int) -> list:
+    # All ledger entries of a wallet in order
+    get_wallet(wallet_id)
+    with engine.connect() as conn:
+        rows = conn.execute(
+            text(
+                "SELECT id, type, amount, balance_after, reference_id, created_at "
+                "FROM wallet_ledger WHERE wallet_id = :w ORDER BY id"
+            ),
+            {"w": wallet_id},
+        ).mappings().all()
+    return [dict(r) for r in rows]

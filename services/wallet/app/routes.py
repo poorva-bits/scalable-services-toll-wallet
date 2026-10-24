@@ -39,3 +39,9 @@ def topup(wallet_id: int, body: MoneyIn):
 def deduct(wallet_id: int, body: MoneyIn):
     # POST /api/v1/wallets/{id}/deduct
     return service.deduct(wallet_id, body.amount, body.reference_id)
+
+
+@router.get("/{wallet_id}/ledger")
+def ledger(wallet_id: int):
+    # GET /api/v1/wallets/{id}/ledger
+    return service.list_ledger(wallet_id)
