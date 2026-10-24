@@ -6,6 +6,7 @@ from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
 
 from app.errors import AppError
+from app.routes import router
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
 logger = logging.getLogger("wallet")
@@ -39,3 +40,5 @@ async def validation_handler(request: Request, exc: RequestValidationError):
 @app.get("/health")
 def health():
     return {"status": "ok", "service": "wallet"}
+
+app.include_router(router)  # mount wallet endpoints
