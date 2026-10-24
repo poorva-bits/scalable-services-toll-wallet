@@ -70,3 +70,35 @@ def topup(wallet_id: int, amount: int, reference_id: str) -> dict:
     except IntegrityError:
         # duplicate reference: return the original result
         return _replay(wallet_id, "TOPUP", reference_id)
+
+
+def deduct(wallet_id: int, amount: int, reference_id: str) -> dict:
+    # Atomic deduct: the balance check and the update are ONE SQL statement (Challenge 1, BR1)
+    try:
+        with engine.begin() as conn:
+            res = conn.execute(
+                text(
+                    "UPDATE wallets SET balance = balance - :a WHERE id = :id AND balance >= :a"),
+                {"a": amount, "id": wallet_id},
+            )
+            if res.rowcount == 0:  # either no such wallet or not enough balance
+                exists = conn.execute(text("SELECT 1 FROM wallets WHERE id = :id"), {
+                                      "id": wallet_id}).first()
+                if exists is None:
+                    raise AppError(404, "WALLET_NOT_FOUND", "Wallet not found")
+                raise AppError(409, "INSUFFICIENT_BALANCE",
+                               "Wallet balance is too low for this deduction")
+            bal = conn.execute(text("SELECT balance FROM wallets WHERE id = :id"), {
+                               "id": wallet_id}).scalar_one()
+            conn.execute(  # ledger row in the same transaction (BR2)
+                text(
+                    "INSERT INTO wallet_ledger (wallet_id, type, amount, balance_after, reference_id) "
+                    "VALUES (:w, 'DEDUCT', :a, :b, :r)"
+                ),
+                {"w": wallet_id, "a": amount, "b": bal, "r": reference_id},
+            )
+            return {"wallet_id": wallet_id, "type": "DEDUCT", "amount": amount,
+                    "balance_after": bal, "reference_id": reference_id, "replayed": False}
+    except IntegrityError:
+        # same reference again: rolled back, return original
+        return _replay(wallet_id, "DEDUCT", reference_id)

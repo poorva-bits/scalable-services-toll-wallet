@@ -33,3 +33,9 @@ def get_wallet(wallet_id: int):
 def topup(wallet_id: int, body: MoneyIn):
     # POST /api/v1/wallets/{id}/topup
     return service.topup(wallet_id, body.amount, body.reference_id)
+
+
+@router.post("/{wallet_id}/deduct")
+def deduct(wallet_id: int, body: MoneyIn):
+    # POST /api/v1/wallets/{id}/deduct
+    return service.deduct(wallet_id, body.amount, body.reference_id)
