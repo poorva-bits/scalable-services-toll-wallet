@@ -45,3 +45,9 @@ def deduct(wallet_id: int, body: MoneyIn):
 def ledger(wallet_id: int):
     # GET /api/v1/wallets/{id}/ledger
     return service.list_ledger(wallet_id)
+
+
+@router.post("/{wallet_id}/deduct-naive")
+def deduct_naive(wallet_id: int, body: MoneyIn):
+    # DEMO ONLY: unsafe version for the Challenge 1 before/after comparison
+    return service.deduct_naive(wallet_id, body.amount, body.reference_id)

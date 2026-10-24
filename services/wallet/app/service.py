@@ -1,3 +1,4 @@
+from time import time
 from sqlalchemy import text
 from sqlalchemy.exc import IntegrityError
 
@@ -116,3 +117,23 @@ def list_ledger(wallet_id: int) -> list:
             {"w": wallet_id},
         ).mappings().all()
     return [dict(r) for r in rows]
+
+def deduct_naive(wallet_id: int, amount: int, reference_id: str) -> dict:
+    # DEMO ONLY: broken read-check-write used to prove the race in Challenge 1; never call from other services
+    with engine.begin() as conn:
+        bal = conn.execute(text("SELECT balance FROM wallets WHERE id = :id"), {"id": wallet_id}).scalar()
+        if bal is None:
+            raise AppError(404, "WALLET_NOT_FOUND", "Wallet not found")
+        if bal < amount:  # check happens in Python, separate from the write
+            raise AppError(409, "INSUFFICIENT_BALANCE", "Wallet balance is too low for this deduction")
+        time.sleep(0.05)  # widen the race window so the bug is reproducible
+        conn.execute(text("UPDATE wallets SET balance = :nb WHERE id = :id"), {"nb": bal - amount, "id": wallet_id})
+        conn.execute(
+            text(
+                "INSERT INTO wallet_ledger (wallet_id, type, amount, balance_after, reference_id) "
+                "VALUES (:w, 'DEDUCT', :a, :b, :r)"
+            ),
+            {"w": wallet_id, "a": amount, "b": bal - amount, "r": reference_id},
+        )
+        return {"wallet_id": wallet_id, "type": "DEDUCT", "amount": amount,
+                "balance_after": bal - amount, "reference_id": reference_id, "replayed": False}
