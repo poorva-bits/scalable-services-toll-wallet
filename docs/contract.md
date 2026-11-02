@@ -13,3 +13,15 @@
 - POST   /{id}/deduct        body {amount, reference_id}        -> 200 ledger entry | 409 INSUFFICIENT_BALANCE | 404 WALLET_NOT_FOUND
 - GET    /{id}/ledger                                           -> 200 [ledger entries]
 - Same reference_id posted twice returns the original entry with "replayed": true
+
+## Toll Transaction API (base: /api/v1/crossings)
+- POST /   headers Idempotency-Key (required), X-Request-ID; body {vehicle_id, gate_id, amount}
+           -> 201 {id, vehicle_id, gate_id, wallet_id, amount, status: COMPLETED}
+           -> 404 VEHICLE_NOT_FOUND | 409 VEHICLE_INACTIVE | 409 INSUFFICIENT_BALANCE | 502 REGISTRY_UNAVAILABLE / WALLET_UNAVAILABLE
+           (failed crossings are still recorded: the error body carries crossing_id and status FAILED)
+- GET /{id} -> 200 crossing | 404 CROSSING_NOT_FOUND
+
+## Services Toll Transaction calls
+- Vehicle Registry: GET /api/v1/vehicles/{vehicle_id} -> {vehicle_id, fleet_id, wallet_id, active} | 404
+- Wallet: POST /api/v1/wallets/{id}/deduct {amount, reference_id = "crossing-<id>"}
+- Notification: POST /api/v1/notifications {wallet_id, type, message} (best effort, never fails a crossing)
