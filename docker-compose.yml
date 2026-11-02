@@ -1,0 +1,134 @@
+services:
+  # ---------- Databases ----------
+  wallet-db:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: wallet_db
+      MYSQL_USER: ${WALLET_DB_USER}
+      MYSQL_PASSWORD: ${WALLET_DB_PASSWORD}
+    volumes:
+      - wallet-data:/var/lib/mysql
+      - ./services/wallet/schema.sql:/docker-entrypoint-initdb.d/01-schema.sql:ro
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-p${MYSQL_ROOT_PASSWORD}"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  toll-db:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: toll_db
+      MYSQL_USER: ${TOLL_DB_USER}
+      MYSQL_PASSWORD: ${TOLL_DB_PASSWORD}
+    volumes:
+      - toll-data:/var/lib/mysql
+      - ./services/toll-transaction/schema.sql:/docker-entrypoint-initdb.d/01-schema.sql:ro
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-p${MYSQL_ROOT_PASSWORD}"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  registry-db:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: registry_db
+      MYSQL_USER: ${REGISTRY_DB_USER}
+      MYSQL_PASSWORD: ${REGISTRY_DB_PASSWORD}
+    volumes:
+      - registry-data:/var/lib/mysql
+      - ./services/vehicle-registry/schema.sql:/docker-entrypoint-initdb.d/01-schema.sql:ro
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-p${MYSQL_ROOT_PASSWORD}"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  # ---------- Services ----------
+  mock-bank:
+    build: ./services/mock-bank
+    ports:
+      - "8005:8005"
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8005/health')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  notification:
+    build: ./services/notification
+    ports:
+      - "8004:8004"
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8004/health')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  vehicle-registry:
+    build: ./services/vehicle-registry
+    environment:
+      DATABASE_URL: mysql+pymysql://${REGISTRY_DB_USER}:${REGISTRY_DB_PASSWORD}@registry-db:3306/registry_db
+    ports:
+      - "8003:8003"
+    depends_on:
+      registry-db:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8003/health')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  wallet:
+    build: ./services/wallet
+    environment:
+      DATABASE_URL: mysql+pymysql://${WALLET_DB_USER}:${WALLET_DB_PASSWORD}@wallet-db:3306/wallet_db
+      BANK_URL: http://mock-bank:8005   # ignored until wallet's bank_client.py actually calls the bank
+    ports:
+      - "8001:8001"
+    depends_on:
+      wallet-db:
+        condition: service_healthy
+      mock-bank:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8001/health')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  toll-transaction:
+    build: ./services/toll-transaction
+    environment:
+      DATABASE_URL: mysql+pymysql://${TOLL_DB_USER}:${TOLL_DB_PASSWORD}@toll-db:3306/toll_db
+      WALLET_URL: http://wallet:8001
+      REGISTRY_URL: http://vehicle-registry:8003
+      NOTIFICATION_URL: http://notification:8004
+      USE_STUBS: "false"
+      HTTP_TIMEOUT: "3"
+    ports:
+      - "8002:8002"
+    depends_on:
+      toll-db:
+        condition: service_healthy
+      wallet:
+        condition: service_healthy
+      vehicle-registry:
+        condition: service_healthy
+      notification:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8002/health')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  wallet-data:
+  toll-data:
+  registry-data:
