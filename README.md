@@ -6,7 +6,7 @@ Each service lives in `services/<name>/` with its own README, `.env.example` and
 | Service | Port | Owner |
 |---|---|---|
 | wallet | 8001 | Poorva |
-| toll-transaction | 8002 |  |
+| toll-transaction | 8002 | Poorva |
 | vehicle-registry | 8003 |  |
 | notification | 8004 |  |
 | mock-bank | 8005 |  |
