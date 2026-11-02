@@ -1,4 +1,4 @@
-from time import time
+import time
 from sqlalchemy import text
 from sqlalchemy.exc import IntegrityError
 
