@@ -1,0 +1,41 @@
+wallet 2 created, balance 0
+
+=== 1. MODE=ok: bank healthy, succeeds on the first attempt ===
+  request_id=c3-ok-c36000
+  -> HTTP 200 in 0.04s
+  -> body {"wallet_id": 2, "type": "TOPUP", "amount": 50000, "balance_after": 50000, "reference_id": "c3-ok-c36000", "replayed": false}
+  -> wallet balance now 50000
+  (retry log: docker compose logs wallet | grep c3-ok-c36000)
+
+=== 2. MODE=flaky: first 2 attempts get 503, client retries with backoff + jitter and succeeds ===
+  request_id=c3-flaky-02f6e6
+  -> HTTP 200 in 0.86s
+  -> body {"wallet_id": 2, "type": "TOPUP", "amount": 50000, "balance_after": 100000, "reference_id": "c3-flaky-02f6e6", "replayed": false}
+  -> wallet balance now 100000
+  (retry log: docker compose logs wallet | grep c3-flaky-02f6e6)
+
+=== 3. MODE=slow: every attempt exceeds the 2s timeout, client gives up cleanly with 502 ===
+  request_id=c3-slow-5a616d
+  -> HTTP 502 in 9.82s
+  -> body {"error": {"code": "BANK_UNAVAILABLE", "message": "Bank could not collect the amount after retries; wallet not credited", "request_id": "c3-slow-5a616d"}}
+  -> wallet balance now 100000
+  (retry log: docker compose logs wallet | grep c3-slow-5a616d)
+
+=== 4. MODE=fail: bank keeps returning 503, client gives up cleanly with 502, balance unchanged ===
+  request_id=c3-fail-b57207
+  -> HTTP 502 in 0.45s
+  -> body {"error": {"code": "BANK_UNAVAILABLE", "message": "Bank could not collect the amount after retries; wallet not credited", "request_id": "c3-fail-b57207"}}
+  -> wallet balance now 100000
+  (retry log: docker compose logs wallet | grep c3-fail-b57207)
+
+=== Bank collections: each successful reference collected exactly once despite retries ===
+  c3-ok-c36000 amount=50000 txn=b531f7bc-e0a3-43ff-bdfc-1fed13016634
+  c3-flaky-02f6e6 amount=50000 txn=1370ac6f-0a77-4e46-aabc-4be00d80aa8f
+  c3-slow-5a616d amount=50000 txn=5941e416-9023-4078-80ef-21c1c24093e3
+
+=== 5. Bank container stopped: connection refused on every attempt, clean 502 ===
+  request_id=c3-down-c02aa0
+  -> HTTP 502 in 0.95s
+  -> body {"error": {"code": "BANK_UNAVAILABLE", "message": "Bank could not collect the amount after retries; wallet not credited", "request_id": "c3-down-c02aa0"}}
+  -> wallet balance now 100000
+  (retry log: docker compose logs wallet | grep c3-down-c02aa0)
