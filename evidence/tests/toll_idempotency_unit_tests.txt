@@ -1,0 +1,19 @@
+============================= test session starts ==============================
+platform darwin -- Python 3.12.11, pytest-9.1.1, pluggy-1.7.0 -- /private/tmp/claude-501/-Users-avlview-faheem-Bits/3185366e-2b3e-4051-9a1e-8b990ac97a0b/scratchpad/venv/bin/python
+rootdir: /Users/avlview/faheem/Bits/scalable-services-toll-wallet/services/toll-transaction
+plugins: anyio-4.15.1
+collecting ... collected 11 items
+
+tests/test_business_rules.py::test_br4_valid_path_pending_charged_completed PASSED [  9%]
+tests/test_business_rules.py::test_br4_completed_crossing_cannot_change PASSED [ 18%]
+tests/test_business_rules.py::test_br4_cannot_skip_charged PASSED        [ 27%]
+tests/test_business_rules.py::test_unknown_vehicle_fails_crossing PASSED [ 36%]
+tests/test_business_rules.py::test_inactive_vehicle_is_rejected PASSED   [ 45%]
+tests/test_business_rules.py::test_missing_idempotency_key_is_rejected PASSED [ 54%]
+tests/test_idempotency.py::test_same_key_same_body_runs_once_and_replays PASSED [ 63%]
+tests/test_idempotency.py::test_same_key_different_body_is_rejected PASSED [ 72%]
+tests/test_idempotency.py::test_fingerprint_ignores_key_order PASSED     [ 81%]
+tests/test_idempotency.py::test_simultaneous_identical_requests_do_work_once PASSED [ 90%]
+tests/test_idempotency.py::test_crash_releases_key_for_retry PASSED      [100%]
+
+============================== 11 passed in 2.56s ==============================
