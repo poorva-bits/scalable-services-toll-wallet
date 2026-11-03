@@ -1,4 +1,4 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Request
 from pydantic import BaseModel, Field
 
 from app import service
@@ -30,9 +30,9 @@ def get_wallet(wallet_id: int):
 
 
 @router.post("/{wallet_id}/topup")
-def topup(wallet_id: int, body: MoneyIn):
+def topup(wallet_id: int, body: MoneyIn, request: Request):
     # POST /api/v1/wallets/{id}/topup
-    return service.topup(wallet_id, body.amount, body.reference_id)
+    return service.topup(wallet_id, body.amount, body.reference_id, request.state.request_id)
 
 
 @router.post("/{wallet_id}/deduct")
