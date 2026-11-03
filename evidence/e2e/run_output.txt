@@ -1,0 +1,33 @@
+=== 0. All services healthy ===
+  [PASS] wallet /health  (HTTP 200)
+  [PASS] toll-transaction /health  (HTTP 200)
+  [PASS] vehicle-registry /health  (HTTP 200)
+  [PASS] notification /health  (HTTP 200)
+  [PASS] mock-bank /health  (HTTP 200)
+
+=== 1. Setup: wallet, top-up through the bank, vehicle ===
+  [PASS] top-up of 20000 via Mock Bank  (HTTP 200)
+  [PASS] vehicle registered  (HTTP 201)
+
+=== 2. Main transaction: crossing -> Registry -> Wallet -> Notification ===
+  [PASS] crossing returns 201 COMPLETED  (HTTP 201)
+  [PASS] wallet charged once: balance 15000  (balance 15000)
+  [PASS] ledger DEDUCT uses reference crossing-<id>
+
+=== 3. Failure path: insufficient balance ===
+  [PASS] 409 INSUFFICIENT_BALANCE  (HTTP 409)
+  [PASS] crossing recorded as FAILED
+  [PASS] balance unchanged at 15000
+
+=== 4. Failure path: deactivated vehicle (BR5) ===
+  [PASS] 409 VEHICLE_INACTIVE  (HTTP 409)
+  [PASS] balance unchanged at 15000
+
+=== 5. Failure path: unregistered vehicle ===
+  [PASS] 404 VEHICLE_NOT_FOUND  (HTTP 404)
+
+=== 6. Failure path: bank down during top-up ===
+  [PASS] 502 BANK_UNAVAILABLE after retries  (HTTP 502)
+  [PASS] balance unchanged at 15000
+
+RESULT: PASS (0 failed checks)
