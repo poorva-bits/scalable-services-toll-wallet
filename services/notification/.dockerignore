@@ -1,0 +1,6 @@
+.env
+.venv
+__pycache__
+.pytest_cache
+notification.db
+notification_test.py
