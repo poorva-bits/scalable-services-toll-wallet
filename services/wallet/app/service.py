@@ -47,12 +47,12 @@ def _replay(wallet_id: int, type_: str, reference_id: str) -> dict:
     return {**dict(row), "wallet_id": wallet_id, "replayed": True}
 
 
-def topup(wallet_id: int, amount: int, reference_id: str) -> dict:
+def topup(wallet_id: int, amount: int, reference_id: str, request_id: str | None = None) -> dict:
     # Credit the wallet once the bank confirms collection
     get_wallet(wallet_id)  # raises 404 if the wallet does not exist
-    if not bank_client.collect(amount, reference_id):
+    if not bank_client.collect(amount, reference_id, request_id):  # retries inside (Challenge 3A)
         raise AppError(502, "BANK_UNAVAILABLE",
-                       "Bank could not collect the amount")
+                       "Bank could not collect the amount after retries; wallet not credited")
     try:
         with engine.begin() as conn:  # balance update and ledger row commit together (BR2)
             conn.execute(text(
