@@ -27,15 +27,15 @@ def test_ok_mode_collects():
     assert r.status_code == 200 and r.json()["status"] == "COLLECTED"
 
 
-def test_brb1_same_reference_is_collected_once():
-    # BR-B1: retrying a reference never collects twice
+def test_br7_same_reference_is_collected_once():
+    # BR7: retrying a reference never collects twice
     first, second = collect("r-dup"), collect("r-dup")
     assert second.json()["replayed"] is True
     assert second.json()["transaction_id"] == first.json()["transaction_id"]
     assert len(client.get("/api/v1/collections").json()) == 1
 
 
-def test_brb1_same_reference_different_amount_conflicts():
+def test_br7_same_reference_different_amount_conflicts():
     collect("r-amt", 1000)
     r = collect("r-amt", 2000)
     assert r.status_code == 409 and r.json()["error"]["code"] == "REFERENCE_CONFLICT"

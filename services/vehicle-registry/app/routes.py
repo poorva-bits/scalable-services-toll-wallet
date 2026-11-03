@@ -42,5 +42,5 @@ def set_status(vehicle_id: str, body: StatusIn):
 
 @router.get("/{vehicle_id}/chargeable")
 def chargeable(vehicle_id: str):
-    # GET /api/v1/vehicles/{vehicle_id}/chargeable: BR3 check as an API
+    # GET /api/v1/vehicles/{vehicle_id}/chargeable: BR5 check as an API
     return service.assert_chargeable(vehicle_id)

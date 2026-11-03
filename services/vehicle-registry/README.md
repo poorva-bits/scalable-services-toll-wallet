@@ -15,7 +15,7 @@ Owns the list of fleet vehicles and which wallet each one is charged to. Toll Tr
 ## Business rule
 | ID | Rule | Enforced in | Tests |
 |---|---|---|---|
-| BR3 | Only a registered, active vehicle can be charged a toll | `service.assert_chargeable`; Toll Transaction also checks `active` before deducting | `test_br3_*` |
+| BR5 | Only a registered, active vehicle can be charged a toll | `service.assert_chargeable`; Toll Transaction also checks `active` before deducting | `test_br5_*` |
 
 ## Run
 ```bash
