@@ -25,3 +25,16 @@
 - Vehicle Registry: GET /api/v1/vehicles/{vehicle_id} -> {vehicle_id, fleet_id, wallet_id, active} | 404
 - Wallet: POST /api/v1/wallets/{id}/deduct {amount, reference_id = "crossing-<id>"}
 - Notification: POST /api/v1/notifications {wallet_id, type, message} (best effort, never fails a crossing)
+
+## Vehicle Registry API (base: /api/v1/vehicles)
+- POST   /                   body {vehicle_id, fleet_id, wallet_id}  -> 201 vehicle | 409 VEHICLE_EXISTS
+- GET    /?fleet_id=                                                 -> 200 [vehicles]
+- GET    /{vehicle_id}                                               -> 200 {vehicle_id, fleet_id, wallet_id, active} | 404 VEHICLE_NOT_FOUND
+- PATCH  /{vehicle_id}       body {active}                           -> 200 vehicle | 404
+- GET    /{vehicle_id}/chargeable                                    -> 200 {..., chargeable: true} | 404 VEHICLE_NOT_FOUND | 409 VEHICLE_INACTIVE (BR3)
+
+## Mock Bank API
+- POST /api/v1/collect   body {amount, reference_id} -> 200 {transaction_id, reference_id, amount, status, replayed, attempt} | 503 BANK_DOWN / BANK_FLAKY | 409 REFERENCE_CONFLICT
+- GET  /api/v1/collections                            -> 200 [collections]
+- GET|PUT /admin/mode    body {mode: ok|slow|fail|flaky}
+- Same reference_id is collected at most once (BR-B1); Wallet retries reuse it, so retries never double-collect

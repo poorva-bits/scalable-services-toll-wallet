@@ -10,9 +10,9 @@ Assignment 1: design and development. Assignment 2: containerization and deploym
 |---|---|---|---|
 | wallet | 8001 | wallet_db (MySQL) | Poorva |
 | toll-transaction | 8002 | toll_db (MySQL) | Poorva |
-| vehicle-registry | 8003 | registry_db (MySQL) | |
+| vehicle-registry | 8003 | registry_db (MySQL) | Faheem |
 | notification | 8004 | none | |
-| mock-bank | 8005 | none | |
+| mock-bank | 8005 | none (in-memory mock) | Faheem |
 
 Each service lives in `services/<name>/` with its own Dockerfile, `schema.sql` (if it has a database) and README.
 
@@ -107,6 +107,15 @@ See the README in each `services/<name>/` folder. In short: create a virtualenv,
 ```bash
 cd services/wallet && python -m pytest -v
 cd services/toll-transaction && python -m pytest -v
+cd services/vehicle-registry && python -m pytest -v
+cd services/mock-bank && python -m pytest -v
+```
+
+## Challenge scripts (stack must be running)
+
+```bash
+python evidence/challenge2/run_challenge2.py              # idempotency of POST /crossings
+python evidence/challenge3/run_challenge3.py --stop-bank  # bank timeout, retry with backoff + jitter, clean failure
 ```
 
 ## Repository layout
