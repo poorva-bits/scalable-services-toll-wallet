@@ -51,6 +51,10 @@ services:
   # ---------- Services ----------
   mock-bank:
     build: ./services/mock-bank
+    environment:
+      MODE: ${BANK_MODE:-ok}          # ok | slow | fail | flaky, also switchable at runtime via PUT /admin/mode
+      SLOW_SECONDS: "5"
+      FLAKY_FAILURES: "2"
     ports:
       - "8005:8005"
     healthcheck:
@@ -88,7 +92,11 @@ services:
     build: ./services/wallet
     environment:
       DATABASE_URL: mysql+pymysql://${WALLET_DB_USER}:${WALLET_DB_PASSWORD}@wallet-db:3306/wallet_db
-      BANK_URL: http://mock-bank:8005   # ignored until wallet's bank_client.py actually calls the bank
+      BANK_URL: http://mock-bank:8005
+      BANK_TIMEOUT: "2"
+      BANK_MAX_ATTEMPTS: "4"
+      BANK_BACKOFF_BASE: "0.5"
+      BANK_BACKOFF_MAX: "4"
     ports:
       - "8001:8001"
     depends_on:
