@@ -11,7 +11,7 @@ Assignment 1: design and development. Assignment 2: containerization and deploym
 | wallet | 8001 | wallet_db (MySQL) | Poorva |
 | toll-transaction | 8002 | toll_db (MySQL) | Poorva |
 | vehicle-registry | 8003 | registry_db (MySQL) | Faheem |
-| notification | 8004 | none | |
+| notification | 8004 | notification.db (SQLite on a volume) | Greeshma |
 | mock-bank | 8005 | none (in-memory mock) | Faheem |
 
 Each service lives in `services/<name>/` with its own Dockerfile, `schema.sql` (if it has a database) and README.
@@ -46,10 +46,11 @@ Each service lives in `services/<name>/` with its own Dockerfile, `schema.sql` (
 
 ## Try the main workflow
 
-Run the demo script (it creates a wallet, tops it up, records a toll crossing, repeats it to show idempotency, and prints the balance):
+Run the demo script (it creates a wallet, tops it up, registers a vehicle, records a toll crossing, repeats it to show idempotency, triggers a low-balance failure, and shows the balance, the notifications and the request id in every service's logs):
 
-```powershell
-./scripts/demo.ps1
+```bash
+./scripts/demo.sh          # macOS / Linux
+./scripts/demo.ps1         # Windows PowerShell
 ```
 
 Or call the APIs yourself:
@@ -61,7 +62,8 @@ curl -X POST http://localhost:8001/api/v1/wallets -H "Content-Type: application/
 # 2. Top it up with 1000.00 (amounts are integers in paise)
 curl -X POST http://localhost:8001/api/v1/wallets/1/topup -H "Content-Type: application/json" -d '{"amount":100000,"reference_id":"top-1"}'
 
-# 3. A vehicle crosses a toll gate (the vehicle must exist in the Vehicle Registry)
+# 3. Register the vehicle in the Vehicle Registry, then it crosses a toll gate
+curl -X POST http://localhost:8003/api/v1/vehicles -H "Content-Type: application/json" -d '{"vehicle_id":"TRUCK-1","fleet_id":"fleet-1","wallet_id":1}'
 curl -X POST http://localhost:8002/api/v1/crossings -H "Content-Type: application/json" -H "Idempotency-Key: k1" -d '{"vehicle_id":"TRUCK-1","gate_id":"G1","amount":5000}'
 
 # 4. Check the balance
@@ -109,21 +111,13 @@ cd services/wallet && python -m pytest -v
 cd services/toll-transaction && python -m pytest -v
 cd services/vehicle-registry && python -m pytest -v
 cd services/mock-bank && python -m pytest -v
+cd services/notification && python -m pytest -v
 ```
 
 ## Challenge scripts (stack must be running)
 
 ```bash
 python scripts/e2e_test.py                                # end-to-end: main transaction + failure paths
-python evidence/challenge2/run_challenge2.py              # idempotency of POST /crossings
-python evidence/challenge3/run_challenge3.py --stop-bank  # bank timeout, retry with backoff + jitter, clean failure
-cd services/vehicle-registry && python -m pytest -v
-cd services/mock-bank && python -m pytest -v
-```
-
-## Challenge scripts (stack must be running)
-
-```bash
 python evidence/challenge2/run_challenge2.py              # idempotency of POST /crossings
 python evidence/challenge3/run_challenge3.py --stop-bank  # bank timeout, retry with backoff + jitter, clean failure
 ```

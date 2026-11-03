@@ -4,3 +4,4 @@ __pycache__
 .pytest_cache
 notification.db
 notification_test.py
+tests

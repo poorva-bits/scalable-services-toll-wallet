@@ -13,11 +13,13 @@
   [PASS] crossing returns 201 COMPLETED  (HTTP 201)
   [PASS] wallet charged once: balance 15000  (balance 15000)
   [PASS] ledger DEDUCT uses reference crossing-<id>
+  [PASS] Notification stored one TOLL_CHARGED for the wallet  (1 stored)
 
 === 3. Failure path: insufficient balance ===
   [PASS] 409 INSUFFICIENT_BALANCE  (HTTP 409)
   [PASS] crossing recorded as FAILED
   [PASS] balance unchanged at 15000
+  [PASS] two low-balance failures -> one LOW_BALANCE notification (BR6)  (1 stored)
 
 === 4. Failure path: deactivated vehicle (BR5) ===
   [PASS] 409 VEHICLE_INACTIVE  (HTTP 409)

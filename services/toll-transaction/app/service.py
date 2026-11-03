@@ -58,7 +58,8 @@ def create_crossing(vehicle_id: str, gate_id: str, amount: int, request_id: str 
         status, _ = clients.deduct(wallet_id, amount, f"crossing-{crossing_id}", request_id)
     except clients.DependencyError:
         return _fail(crossing_id, 502, "WALLET_UNAVAILABLE", "Wallet service is unavailable", request_id)
-    if status == 409:
+    if status == 409:  # tell the fleet; Notification keeps only one LOW_BALANCE open per wallet (BR6)
+        clients.notify(wallet_id, "LOW_BALANCE", f"Wallet {wallet_id} balance too low for a toll of {amount} ({vehicle_id})", request_id)
         return _fail(crossing_id, 409, "INSUFFICIENT_BALANCE", "Wallet balance is too low for this toll", request_id)
     if status == 404:
         return _fail(crossing_id, 404, "WALLET_NOT_FOUND", "Wallet for this vehicle was not found", request_id)

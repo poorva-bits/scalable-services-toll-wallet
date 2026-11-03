@@ -1,0 +1,285 @@
+{
+    "openapi": "3.1.0",
+    "info": {
+        "title": "Fleet Toll Wallet - Notification Service",
+        "description": "Mock notifications for toll charges and low wallet balance. No real messages are sent.",
+        "version": "2.0.0"
+    },
+    "paths": {
+        "/health": {
+            "get": {
+                "tags": [
+                    "operations"
+                ],
+                "summary": "Health",
+                "operationId": "health_health_get",
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/notifications": {
+            "post": {
+                "tags": [
+                    "notifications"
+                ],
+                "summary": "Create Notification",
+                "description": "Store and log a simulated notification.\n\nBR6: only one LOW_BALANCE notification per wallet until its balance recovers. A later\nTOLL_CHARGED for the wallet shows the balance covered a toll again, which closes the alert.\nA suppressed LOW_BALANCE returns 200 with the original notification and \"suppressed\": true.",
+                "operationId": "create_notification_api_v1_notifications_post",
+                "parameters": [
+                    {
+                        "name": "X-Request-ID",
+                        "in": "header",
+                        "required": false,
+                        "schema": {
+                            "anyOf": [
+                                {
+                                    "type": "string"
+                                },
+                                {
+                                    "type": "null"
+                                }
+                            ],
+                            "title": "X-Request-Id"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/NotificationRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "get": {
+                "tags": [
+                    "notifications"
+                ],
+                "summary": "List Notifications",
+                "operationId": "list_notifications_api_v1_notifications_get",
+                "parameters": [
+                    {
+                        "name": "wallet_id",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "anyOf": [
+                                {
+                                    "type": "integer"
+                                },
+                                {
+                                    "type": "null"
+                                }
+                            ],
+                            "title": "Wallet Id"
+                        }
+                    },
+                    {
+                        "name": "type",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "anyOf": [
+                                {
+                                    "type": "string"
+                                },
+                                {
+                                    "type": "null"
+                                }
+                            ],
+                            "title": "Type"
+                        }
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 100,
+                            "title": "Limit"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/notifications/{notification_id}": {
+            "get": {
+                "tags": [
+                    "notifications"
+                ],
+                "summary": "Get Notification",
+                "operationId": "get_notification_api_v1_notifications__notification_id__get",
+                "parameters": [
+                    {
+                        "name": "notification_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "title": "Notification Id"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "HTTPValidationError": {
+                "properties": {
+                    "detail": {
+                        "items": {
+                            "$ref": "#/components/schemas/ValidationError"
+                        },
+                        "type": "array",
+                        "title": "Detail"
+                    }
+                },
+                "type": "object",
+                "title": "HTTPValidationError"
+            },
+            "NotificationRequest": {
+                "properties": {
+                    "wallet_id": {
+                        "type": "integer",
+                        "exclusiveMinimum": 0.0,
+                        "title": "Wallet Id"
+                    },
+                    "type": {
+                        "type": "string",
+                        "enum": [
+                            "TOLL_CHARGED",
+                            "LOW_BALANCE"
+                        ],
+                        "title": "Type"
+                    },
+                    "message": {
+                        "type": "string",
+                        "maxLength": 500,
+                        "minLength": 1,
+                        "title": "Message"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "wallet_id",
+                    "type",
+                    "message"
+                ],
+                "title": "NotificationRequest"
+            },
+            "ValidationError": {
+                "properties": {
+                    "loc": {
+                        "items": {
+                            "anyOf": [
+                                {
+                                    "type": "string"
+                                },
+                                {
+                                    "type": "integer"
+                                }
+                            ]
+                        },
+                        "type": "array",
+                        "title": "Location"
+                    },
+                    "msg": {
+                        "type": "string",
+                        "title": "Message"
+                    },
+                    "type": {
+                        "type": "string",
+                        "title": "Error Type"
+                    },
+                    "input": {
+                        "title": "Input"
+                    },
+                    "ctx": {
+                        "type": "object",
+                        "title": "Context"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "loc",
+                    "msg",
+                    "type"
+                ],
+                "title": "ValidationError"
+            }
+        }
+    }
+}

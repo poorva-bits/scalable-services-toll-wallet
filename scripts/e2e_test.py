@@ -14,6 +14,7 @@ WALLET = "http://localhost:8001/api/v1/wallets"
 TOLL = "http://localhost:8002/api/v1/crossings"
 REGISTRY = "http://localhost:8003/api/v1/vehicles"
 BANK = "http://localhost:8005"
+NOTIFY = "http://localhost:8004/api/v1/notifications"
 HEALTH = {name: f"http://localhost:{port}/health" for name, port in
           [("wallet", 8001), ("toll-transaction", 8002), ("vehicle-registry", 8003), ("notification", 8004), ("mock-bank", 8005)]}
 
@@ -68,12 +69,17 @@ def main() -> None:
     ledger = call("GET", f"{WALLET}/{wallet_id}/ledger")[1]
     check("ledger DEDUCT uses reference crossing-<id>",
           any(e["type"] == "DEDUCT" and e["reference_id"] == f"crossing-{body.get('id')}" for e in ledger))
+    charged = call("GET", f"{NOTIFY}?wallet_id={wallet_id}&type=TOLL_CHARGED")[1]
+    check("Notification stored one TOLL_CHARGED for the wallet", len(charged) == 1, f"{len(charged)} stored")
 
     print("\n=== 3. Failure path: insufficient balance ===")
     status, body = crossing(vehicle, 50000, f"e2e-low-{tag}")
     check("409 INSUFFICIENT_BALANCE", status == 409 and body["error"]["code"] == "INSUFFICIENT_BALANCE", f"HTTP {status}")
     check("crossing recorded as FAILED", call("GET", f"{TOLL}/{body.get('crossing_id')}")[1].get("status") == "FAILED")
     check("balance unchanged at 15000", balance(wallet_id) == 15000)
+    crossing(vehicle, 50000, f"e2e-low2-{tag}")
+    low = call("GET", f"{NOTIFY}?wallet_id={wallet_id}&type=LOW_BALANCE")[1]
+    check("two low-balance failures -> one LOW_BALANCE notification (BR6)", len(low) == 1, f"{len(low)} stored")
 
     print("\n=== 4. Failure path: deactivated vehicle (BR5) ===")
     call("PATCH", f"{REGISTRY}/{vehicle}", {"active": False})

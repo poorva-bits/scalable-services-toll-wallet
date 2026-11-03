@@ -65,6 +65,10 @@ services:
 
   notification:
     build: ./services/notification
+    environment:
+      DB_PATH: /data/notification.db   # SQLite file on a named volume, so notifications survive restarts
+    volumes:
+      - notification-data:/data
     ports:
       - "8004:8004"
     healthcheck:
@@ -140,3 +144,4 @@ volumes:
   wallet-data:
   toll-data:
   registry-data:
+  notification-data:

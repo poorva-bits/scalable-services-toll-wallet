@@ -8,7 +8,8 @@ Invoke-RestMethod -Method Post -Uri $wallet -ContentType $json -Body '{"fleet_id
 Write-Host "2. Top up 100000 paise"
 Invoke-RestMethod -Method Post -Uri "$wallet/1/topup" -ContentType $json -Body '{"amount":100000,"reference_id":"demo-top-1"}'
 
-# TODO: register vehicle TRUCK-1 for wallet 1 in the Vehicle Registry
+Write-Host "2b. Register vehicle TRUCK-1 for wallet 1"
+Invoke-RestMethod -Method Post -Uri "http://localhost:8003/api/v1/vehicles" -ContentType $json -Body '{"vehicle_id":"TRUCK-1","fleet_id":"fleet-demo","wallet_id":1}'
 
 $key = "demo-" + [guid]::NewGuid()
 $body = '{"vehicle_id":"TRUCK-1","gate_id":"G1","amount":5000}'

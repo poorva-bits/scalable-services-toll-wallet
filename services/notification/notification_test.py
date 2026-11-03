@@ -1,39 +1,26 @@
-"""Integration checks for Notification Service; start Docker Compose first."""
+"""Integration check for the Notification Service; start Docker Compose first. Usage: python notification_test.py"""
 import os
-import uuid
+import random
+
 import requests
 
 BASE_URL = os.getenv("NOTIFICATION_URL", "http://localhost:8004")
-booking_id = f"notification-test-{uuid.uuid4()}"
-payload = {
-    "booking_id": booking_id,
-    "message": "Your appointment is confirmed",
-    "recipient": "patient-test",
-    "channel": "mock",
-}
+wallet_id = random.randint(10**6, 10**9)
 
-health = requests.get(f"{BASE_URL}/health", timeout=5)
-health.raise_for_status()
-print("HEALTH:", health.json())
+print("HEALTH:", requests.get(f"{BASE_URL}/health", timeout=5).json())
 
-first = requests.post(f"{BASE_URL}/api/v1/notifications", json=payload, headers={"X-Request-ID": "notification-test-001"}, timeout=5)
+first = requests.post(f"{BASE_URL}/api/v1/notifications", json={"wallet_id": wallet_id, "type": "LOW_BALANCE", "message": "Balance too low"},
+                      headers={"X-Request-ID": "notification-test-001"}, timeout=5)
 assert first.status_code == 201, (first.status_code, first.text)
-first_body = first.json()
-print("FIRST:", first.status_code, {"id": first_body["id"], "booking_id": first_body["booking_id"], "status": first_body["status"]})
+repeat = requests.post(f"{BASE_URL}/api/v1/notifications", json={"wallet_id": wallet_id, "type": "LOW_BALANCE", "message": "Balance too low"}, timeout=5)
+assert repeat.status_code == 200 and repeat.json()["suppressed"] is True, repeat.text
+print("LOW_BALANCE first:", first.status_code, "repeat suppressed:", repeat.json()["suppressed"])
 
-replay = requests.post(f"{BASE_URL}/api/v1/notifications", json=payload, headers={"X-Request-ID": "notification-test-002"}, timeout=5)
-assert replay.status_code == 200, (replay.status_code, replay.text)
-assert replay.json()["id"] == first_body["id"]
-print("REPLAY:", replay.status_code, "same notification id:", replay.json()["id"] == first_body["id"])
+charged = requests.post(f"{BASE_URL}/api/v1/notifications", json={"wallet_id": wallet_id, "type": "TOLL_CHARGED", "message": "Toll charged"}, timeout=5)
+assert charged.status_code == 201, charged.text
+again = requests.post(f"{BASE_URL}/api/v1/notifications", json={"wallet_id": wallet_id, "type": "LOW_BALANCE", "message": "Balance too low"}, timeout=5)
+assert again.status_code == 201, again.text
+print("after TOLL_CHARGED, LOW_BALANCE reported again:", again.status_code)
 
-changed = dict(payload, message="Different message for same booking")
-conflict = requests.post(f"{BASE_URL}/api/v1/notifications", json=changed, timeout=5)
-assert conflict.status_code == 409, (conflict.status_code, conflict.text)
-print("PAYLOAD CONFLICT:", conflict.status_code, conflict.json())
-
-records = requests.get(f"{BASE_URL}/api/v1/notifications?limit=500", timeout=5)
-records.raise_for_status()
-matching = [item for item in records.json() if item["booking_id"] == booking_id]
-assert len(matching) == 1, f"Expected one notification record, got {len(matching)}"
-print("DATABASE/API STATE: exactly one notification record for test booking")
-print("Notification Service checks passed.")
+listed = requests.get(f"{BASE_URL}/api/v1/notifications", params={"wallet_id": wallet_id}, timeout=5).json()
+print("LISTED:", [n["type"] for n in listed])
