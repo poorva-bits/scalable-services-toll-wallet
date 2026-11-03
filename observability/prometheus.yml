@@ -1,0 +1,7 @@
+global:
+  scrape_interval: 5s
+scrape_configs:
+  - job_name: toll-wallet
+    metrics_path: /metrics/
+    static_configs:
+      - targets: ["wallet:8001", "toll-transaction:8002", "vehicle-registry:8003", "mock-bank:8005"]

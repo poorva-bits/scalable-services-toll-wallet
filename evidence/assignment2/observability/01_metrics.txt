@@ -1,0 +1,38 @@
+$ Prometheus targets (http://localhost:9090/targets)
+   toll-transaction:8002 up
+   vehicle-registry:8003 up
+   mock-bank:8005 up
+   wallet:8001 up
+
+$ sum by (service) (http_requests_total)
+   {'service': 'wallet'} => 29
+   {'service': 'vehicle-registry'} => 13
+   {'service': 'mock-bank'} => 34
+   {'service': 'toll-transaction'} => 11
+
+$ sum by (service,status) (http_requests_total{status=~"4..|5.."})
+   {'service': 'toll-transaction', 'status': '409'} => 2
+   {'service': 'toll-transaction', 'status': '404'} => 1
+   {'service': 'mock-bank', 'status': '503'} => 10
+   {'service': 'wallet', 'status': '409'} => 1
+   {'service': 'vehicle-registry', 'status': '404'} => 1
+   {'service': 'wallet', 'status': '502'} => 3
+
+$ bank_collect_attempts_total  (Challenge 3A retries)
+   {'outcome': 'ok'} => 3
+   {'outcome': 'http_503'} => 10
+   {'outcome': 'timeout'} => 4
+
+$ bank_collect_results_total
+   {'result': 'success'} => 2
+   {'result': 'gave_up'} => 3
+   {'result': 'success_after_retry'} => 1
+
+$ p95 latency per service (s)
+   {'service': 'toll-transaction'} => 0.0095
+   {'service': 'wallet'} => 7.323755982966
+   {'service': 'vehicle-registry'} => 0.03925763201745796
+   {'service': 'mock-bank'} => 8.454716265406615
+
+$ Grafana: provisioned dashboard
+   Fleet Toll Wallet -> http://localhost:3000/d/toll-wallet/fleet-toll-wallet
