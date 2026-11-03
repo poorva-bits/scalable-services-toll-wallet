@@ -1,0 +1,16 @@
+$ docker compose up --build -d
+
+#23 [vehicle-registry] exporting to image
+#23 exporting layers 0.0s done
+#23 exporting manifest sha256:3f5ad02943bf4269a47282bc29a535324d210c8dbfff19d8063cef0b79e8b1af 0.0s done
+#23 exporting config sha256:75d8697560b38045c8e961aa3db6eb3e223f99b9fadd56a0606bf49475de0951 0.0s done
+#23 exporting attestation manifest sha256:8b011a9e042153cc18ecb3dac192d2f19823e2c009bf86a24c9f2155ce1c12a5 0.1s done
+#23 CANCELED
+
+#22 [mock-bank] exporting to image
+#22 exporting attestation manifest sha256:71cfde3f5e24b758c0ff6054aa88f8e9f2c7e9dd36429e16ad705843bc2c94d3 0.1s done
+#22 CANCELED
+------
+ > [notification 3/5] COPY requirements.txt .:
+------
+failed to solve: failed to compute cache key: failed to calculate checksum of ref xpw21u5fvjyltf3m30a1nxh8l::kooimqf12qyvkl0pyi2nadu18: "/requirements.txt": not found

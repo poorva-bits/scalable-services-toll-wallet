@@ -1,0 +1,13 @@
+$ ls services/notification
+.
+..
+.env.example
+.gitkeep
+Dockerfile
+app.py
+notification.db
+notification_test.py
+
+$ grep COPY services/notification/Dockerfile
+3:COPY requirements.txt .
+5:COPY app.py .

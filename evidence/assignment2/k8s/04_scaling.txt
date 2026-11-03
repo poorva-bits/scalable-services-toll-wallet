@@ -1,0 +1,30 @@
+$ kubectl -n toll-wallet scale deploy/vehicle-registry --replicas=4
+deployment.apps/vehicle-registry scaled
+Waiting for deployment "vehicle-registry" rollout to finish: 2 of 4 updated replicas are available...
+Waiting for deployment "vehicle-registry" rollout to finish: 3 of 4 updated replicas are available...
+deployment "vehicle-registry" successfully rolled out
+
+$ kubectl -n toll-wallet get deploy vehicle-registry; get pods -l app=vehicle-registry
+NAME               READY   UP-TO-DATE   AVAILABLE   AGE
+vehicle-registry   4/4     4            4           7m20s
+NAME                               READY   STATUS    RESTARTS   AGE     IP            NODE       NOMINATED NODE   READINESS GATES
+vehicle-registry-c75d8889c-57xzf   1/1     Running   0          7m20s   10.244.0.10   minikube   <none>           <none>
+vehicle-registry-c75d8889c-bccz2   1/1     Running   0          21s     10.244.0.15   minikube   <none>           <none>
+vehicle-registry-c75d8889c-mg6nr   1/1     Running   0          21s     10.244.0.16   minikube   <none>           <none>
+vehicle-registry-c75d8889c-pnjh9   1/1     Running   0          7m20s   10.244.0.11   minikube   <none>           <none>
+
+$ 20 lookups, then count which pods served them (logs per pod)
+(port-forward pins one pod; inside the cluster the Service balances across pods:)
+Defaulted container "toll-transaction" out of: toll-transaction, wait-for-db (init)
+20 requests sent from a toll-transaction pod to the vehicle-registry Service
+Defaulted container "vehicle-registry" out of: vehicle-registry, wait-for-db (init)
+pod/vehicle-registry-c75d8889c-57xzf served 3
+Defaulted container "vehicle-registry" out of: vehicle-registry, wait-for-db (init)
+pod/vehicle-registry-c75d8889c-bccz2 served 6
+Defaulted container "vehicle-registry" out of: vehicle-registry, wait-for-db (init)
+pod/vehicle-registry-c75d8889c-mg6nr served 6
+Defaulted container "vehicle-registry" out of: vehicle-registry, wait-for-db (init)
+pod/vehicle-registry-c75d8889c-pnjh9 served 5
+
+$ kubectl -n toll-wallet scale deploy/vehicle-registry --replicas=2
+deployment.apps/vehicle-registry scaled

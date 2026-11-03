@@ -22,7 +22,7 @@ Stands in for the fleet's bank when a wallet is topped up. It is our own mock (n
 ## Business rule
 | ID | Rule | Enforced in | Tests |
 |---|---|---|---|
-| BR-B1 | A reference_id is collected at most once, so caller retries never double-collect | `bank.collect` | `test_brb1_*` |
+| BR7 | A reference_id is collected at most once, so caller retries never double-collect | `bank.collect` | `test_br7_*` |
 
 ## Run
 ```bash

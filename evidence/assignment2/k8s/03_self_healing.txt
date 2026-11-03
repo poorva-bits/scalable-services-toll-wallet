@@ -1,0 +1,24 @@
+$ kubectl -n toll-wallet get pods -l app=toll-transaction
+NAME                                READY   STATUS    RESTARTS   AGE
+toll-transaction-865d6897fc-hjpkg   1/1     Running   0          62s
+toll-transaction-865d6897fc-vtsdv   1/1     Running   0          7m44s
+
+$ (inside the cluster) a wallet pod calls http://toll-transaction:8002/health every 0.2 s for 12 s, in the background
+$ kubectl -n toll-wallet delete pod toll-transaction-865d6897fc-hjpkg
+pod "toll-transaction-865d6897fc-hjpkg" deleted
+
+$ kubectl -n toll-wallet get pods -l app=toll-transaction   (3 s later)
+NAME                                READY   STATUS    RESTARTS   AGE
+toll-transaction-865d6897fc-k7n42   0/1     Running   0          4s
+toll-transaction-865d6897fc-vtsdv   1/1     Running   0          7m51s
+
+results through the Service during the pod deletion: {200: 52}
+Waiting for deployment "toll-transaction" rollout to finish: 1 of 2 updated replicas are available...
+deployment "toll-transaction" successfully rolled out
+
+$ kubectl -n toll-wallet get pods -l app=toll-transaction   (self-healed: 2/2 Running, new pod name)
+NAME                                READY   STATUS    RESTARTS   AGE
+toll-transaction-865d6897fc-k7n42   1/1     Running   0          14s
+toll-transaction-865d6897fc-vtsdv   1/1     Running   0          8m1s
+
+$ kubectl -n toll-wallet get events --field-selector involvedObject.kind=Pod | grep toll-transaction | tail -5

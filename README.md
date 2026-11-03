@@ -114,6 +114,16 @@ cd services/mock-bank && python -m pytest -v
 ## Challenge scripts (stack must be running)
 
 ```bash
+python scripts/e2e_test.py                                # end-to-end: main transaction + failure paths
+python evidence/challenge2/run_challenge2.py              # idempotency of POST /crossings
+python evidence/challenge3/run_challenge3.py --stop-bank  # bank timeout, retry with backoff + jitter, clean failure
+cd services/vehicle-registry && python -m pytest -v
+cd services/mock-bank && python -m pytest -v
+```
+
+## Challenge scripts (stack must be running)
+
+```bash
 python evidence/challenge2/run_challenge2.py              # idempotency of POST /crossings
 python evidence/challenge3/run_challenge3.py --stop-bank  # bank timeout, retry with backoff + jitter, clean failure
 ```

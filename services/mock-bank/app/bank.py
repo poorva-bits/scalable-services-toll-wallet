@@ -43,7 +43,7 @@ def collect(amount: int, reference_id: str) -> dict:
         raise AppError(503, "BANK_FLAKY", f"Transient bank failure (attempt {attempt})")
     if mode == "slow":
         time.sleep(config.SLOW_SECONDS)
-    with _lock:  # BR-B1: a reference_id is collected at most once; retries get the original result
+    with _lock:  # BR7: a reference_id is collected at most once; retries get the original result
         existing = _collections.get(reference_id)
         if existing is not None:
             if existing["amount"] != amount:

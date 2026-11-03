@@ -1,0 +1,13 @@
+$ docker compose exec wallet env | grep -E "DATABASE_URL|BANK_" (password masked)
+BANK_TIMEOUT=2
+BANK_MAX_ATTEMPTS=4
+BANK_BACKOFF_BASE=0.5
+BANK_BACKOFF_MAX=4
+DATABASE_URL=mysql+pymysql://wallet_user:****@wallet-db:3306/wallet_db
+BANK_URL=http://mock-bank:8005
+
+$ docker run --rm --entrypoint sh <wallet image> -c "ls -a /app"  (no .env in the image)
+.
+..
+app
+requirements.txt

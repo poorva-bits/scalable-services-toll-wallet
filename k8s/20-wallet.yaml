@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata: {name: wallet, namespace: toll-wallet, labels: {app: wallet}}
+spec:
+  replicas: 2
+  selector: {matchLabels: {app: wallet}}
+  template:
+    metadata: {labels: {app: wallet}}
+    spec:
+      initContainers:   # wait until this service's own database accepts connections
+        - name: wait-for-db
+          image: toll-wallet/wallet:1.0
+          imagePullPolicy: Never
+          command: ["python", "-c", "import socket,time\nwhile True:\n  try: socket.create_connection(('wallet-db',3306),2); break\n  except OSError: print('waiting for wallet-db'); time.sleep(2)"]
+      containers:
+        - name: wallet
+          image: toll-wallet/wallet:1.0
+          imagePullPolicy: Never   # built inside Minikube by deploy.sh
+          ports: [{containerPort: 8001}]
+          env:
+            - {name: DB_USER, valueFrom: {secretKeyRef: {name: db-credentials, key: WALLET_DB_USER}}}
+            - {name: DB_PASSWORD, valueFrom: {secretKeyRef: {name: db-credentials, key: WALLET_DB_PASSWORD}}}
+            - {name: DATABASE_URL, value: "mysql+pymysql://$(DB_USER):$(DB_PASSWORD)@wallet-db:3306/wallet_db"}
+            - {name: BANK_URL, value: "http://mock-bank:8005"}
+            - {name: BANK_TIMEOUT, value: "2"}
+            - {name: BANK_MAX_ATTEMPTS, value: "4"}
+          readinessProbe: {httpGet: {path: /health, port: 8001}, periodSeconds: 5}
+          livenessProbe: {httpGet: {path: /health, port: 8001}, initialDelaySeconds: 10, periodSeconds: 10}
+          resources: {requests: {cpu: 50m, memory: 96Mi}, limits: {cpu: 500m, memory: 256Mi}}
+---
+apiVersion: v1
+kind: Service
+metadata: {name: wallet, namespace: toll-wallet}
+spec:
+  selector: {app: wallet}
+  ports: [{port: 8001, targetPort: 8001}]

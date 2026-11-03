@@ -1,0 +1,28 @@
+setup: wallet 2 balance 100000, vehicle C2-TRUCK-b1cbbb, toll 5000
+
+=== 1. Same Idempotency-Key sent 3 times in a row ===
+  call 1: HTTP 201 {"id": 5, "vehicle_id": "C2-TRUCK-b1cbbb", "gate_id": "GATE-7", "wallet_id": 2, "amount": 5000, "status": "COMPLETED", "failure_reason": null, "created_at": "2026-11-03T16:21:09", "updated_at": "2026-11-03T16:21:10"}
+  call 2: HTTP 201 {"id": 5, "amount": 5000, "status": "COMPLETED", "gate_id": "GATE-7", "wallet_id": 2, "created_at": "2026-11-03T16:21:09", "updated_at": "2026-11-03T16:21:10", "vehicle_id": "C2-TRUCK-b1cbbb", "failure_reason": null}
+  call 3: HTTP 201 {"id": 5, "amount": 5000, "status": "COMPLETED", "gate_id": "GATE-7", "wallet_id": 2, "created_at": "2026-11-03T16:21:09", "updated_at": "2026-11-03T16:21:10", "vehicle_id": "C2-TRUCK-b1cbbb", "failure_reason": null}
+
+=== 2. Same key, different payload (amount 9999) ===
+  HTTP 422 {"error": {"code": "IDEMPOTENCY_KEY_REUSED", "message": "Idempotency-Key was already used with a different request body", "request_id": "ec661d2e-dedc-467c-8d39-e4cc54bea3ce"}}
+
+=== 3. 20 identical requests with one new key fired at the same moment ===
+  status codes: [201, 201, 201, 201, 201, 201, 201, 201, 201, 201, 201, 201, 201, 201, 201, 201, 201, 201, 201, 201]
+  distinct crossing ids returned: [6]
+
+=== Result ===
+  wallet balance: 90000 (expected 100000 - 2 x 5000 = 90000)
+  wallet DEDUCT ledger rows: 2 (expected 2, one per key)
+  vehicle: C2-TRUCK-b1cbbb  (count its crossings in toll_db, expected 2)
+pod/toll-transaction-865d6897fc-k7n42: 0
+pod/toll-transaction-865d6897fc-vtsdv: 20
+
+== 20 identical POST /crossings with Idempotency-Key k8s-par-1793722891 fired at once from inside the cluster (through the toll-transaction Service, 2 replicas) ==
+status codes: [201, 201, 201, 201, 201, 201, 201, 201, 201, 201, 201, 201, 201, 201, 201, 201, 201, 201, 201, 201]
+distinct crossing ids: [7]
+
+== which toll-transaction pod handled each request ==
+pod/toll-transaction-865d6897fc-k7n42 handled 9 requests, 9 of them replays
+pod/toll-transaction-865d6897fc-vtsdv handled 11 requests, 10 of them replays

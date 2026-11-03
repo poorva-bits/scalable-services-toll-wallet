@@ -17,22 +17,22 @@ def new_vehicle(active: bool = True) -> str:
     return vid
 
 
-def test_br3_registered_active_vehicle_is_chargeable():
-    # BR3: a registered, active vehicle can be charged
+def test_br5_registered_active_vehicle_is_chargeable():
+    # BR5: a registered, active vehicle can be charged
     r = client.get(f"{BASE}/{new_vehicle()}/chargeable")
     assert r.status_code == 200 and r.json()["chargeable"] is True
 
 
-def test_br3_inactive_vehicle_cannot_be_charged():
-    # BR3: a deactivated vehicle is rejected with 409
+def test_br5_inactive_vehicle_cannot_be_charged():
+    # BR5: a deactivated vehicle is rejected with 409
     vid = new_vehicle(active=False)
     assert client.get(f"{BASE}/{vid}").json()["active"] is False
     r = client.get(f"{BASE}/{vid}/chargeable")
     assert r.status_code == 409 and r.json()["error"]["code"] == "VEHICLE_INACTIVE"
 
 
-def test_br3_unregistered_vehicle_cannot_be_charged():
-    # BR3: an unknown vehicle is rejected with 404
+def test_br5_unregistered_vehicle_cannot_be_charged():
+    # BR5: an unknown vehicle is rejected with 404
     r = client.get(f"{BASE}/NOPE-{uuid.uuid4().hex[:8]}/chargeable")
     assert r.status_code == 404 and r.json()["error"]["code"] == "VEHICLE_NOT_FOUND"
 

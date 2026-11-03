@@ -51,7 +51,7 @@ def set_active(vehicle_id: str, active: bool) -> dict:
 
 
 def assert_chargeable(vehicle_id: str) -> dict:
-    # BR3: only a registered, active vehicle can be charged a toll
+    # BR5: only a registered, active vehicle can be charged a toll
     vehicle = get_vehicle(vehicle_id)  # 404 VEHICLE_NOT_FOUND if not registered
     if not vehicle["active"]:
         raise AppError(409, "VEHICLE_INACTIVE", "Vehicle is not active")

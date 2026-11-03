@@ -1,0 +1,9 @@
+$ docker compose up --build -d
+ Container scalable-services-toll-wallet-notification-1  Waiting
+ Container scalable-services-toll-wallet-toll-db-1  Waiting
+ Container scalable-services-toll-wallet-wallet-1  Waiting
+ Container scalable-services-toll-wallet-vehicle-registry-1  Healthy
+ Container scalable-services-toll-wallet-toll-db-1  Healthy
+ Container scalable-services-toll-wallet-wallet-1  Healthy
+ Container scalable-services-toll-wallet-notification-1  Error
+dependency failed to start: container scalable-services-toll-wallet-notification-1 is unhealthy

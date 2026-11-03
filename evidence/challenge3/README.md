@@ -11,7 +11,7 @@ A wallet top-up first collects the money from the fleet's bank (`services/mock-b
 | Not retried on | other 4xx (retrying will not help) | |
 | Clean failure | HTTP 502 `BANK_UNAVAILABLE`, wallet not credited | |
 
-Retries are safe: every attempt sends the same `reference_id`, and the bank collects a reference at most once (BR-B1). Jitter keeps many clients from retrying in lockstep after an outage.
+Retries are safe: every attempt sends the same `reference_id`, and the bank collects a reference at most once (BR7). Jitter keeps many clients from retrying in lockstep after an outage.
 
 The mock bank's `MODE` (`ok`, `slow`, `fail`, `flaky`) is switched at runtime with `PUT /admin/mode`.
 
@@ -19,9 +19,9 @@ The mock bank's `MODE` (`ok`, `slow`, `fail`, `flaky`) is switched at runtime wi
 | Scenario | Result | Proof |
 |---|---|---|
 | ok | 200 on attempt 1 | `run_output.txt` section 1 |
-| flaky (2 x 503 then ok) | 200 after 2 retries, about 0.9 s | section 2, `wallet_retry_logs.txt` (`attempt=1/4 failed (status 503); retrying in 0.23s`...) |
-| slow (5 s > 2 s timeout) | 4 timeouts, clean 502 in about 9 s | section 3 |
-| fail (always 503) | clean 502 in about 2.5 s, balance unchanged | section 4 |
+| flaky (2 x 503 then ok) | 200 after 2 retries, 0.86 s | section 2, `wallet_retry_logs.txt` (`attempt=1/4 failed (status 503); retrying in 0.79s`...) |
+| slow (5 s > 2 s timeout) | 4 timeouts, clean 502 in about 9.8 s | section 3 |
+| fail (always 503) | clean 502 in under 1 s, balance unchanged | section 4 |
 | bank container stopped | connection errors, clean 502 | section 5 |
 | no double collection | each successful reference appears once in the bank | "Bank collections" in `run_output.txt` |
 

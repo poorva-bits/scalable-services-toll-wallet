@@ -31,10 +31,10 @@
 - GET    /?fleet_id=                                                 -> 200 [vehicles]
 - GET    /{vehicle_id}                                               -> 200 {vehicle_id, fleet_id, wallet_id, active} | 404 VEHICLE_NOT_FOUND
 - PATCH  /{vehicle_id}       body {active}                           -> 200 vehicle | 404
-- GET    /{vehicle_id}/chargeable                                    -> 200 {..., chargeable: true} | 404 VEHICLE_NOT_FOUND | 409 VEHICLE_INACTIVE (BR3)
+- GET    /{vehicle_id}/chargeable                                    -> 200 {..., chargeable: true} | 404 VEHICLE_NOT_FOUND | 409 VEHICLE_INACTIVE (BR5)
 
 ## Mock Bank API
 - POST /api/v1/collect   body {amount, reference_id} -> 200 {transaction_id, reference_id, amount, status, replayed, attempt} | 503 BANK_DOWN / BANK_FLAKY | 409 REFERENCE_CONFLICT
 - GET  /api/v1/collections                            -> 200 [collections]
 - GET|PUT /admin/mode    body {mode: ok|slow|fail|flaky}
-- Same reference_id is collected at most once (BR-B1); Wallet retries reuse it, so retries never double-collect
+- Same reference_id is collected at most once (BR7); Wallet retries reuse it, so retries never double-collect

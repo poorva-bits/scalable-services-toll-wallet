@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata: {name: mock-bank, namespace: toll-wallet, labels: {app: mock-bank}}
+spec:
+  replicas: 1
+  selector: {matchLabels: {app: mock-bank}}
+  template:
+    metadata: {labels: {app: mock-bank}}
+    spec:
+      containers:
+        - name: mock-bank
+          image: toll-wallet/mock-bank:1.0
+          imagePullPolicy: Never   # built inside Minikube by deploy.sh
+          ports: [{containerPort: 8005}]
+          env:
+            - {name: MODE, value: ok}   # one replica: the mock keeps its state in memory
+            - {name: SLOW_SECONDS, value: "5"}
+            - {name: FLAKY_FAILURES, value: "2"}
+          readinessProbe: {httpGet: {path: /health, port: 8005}, periodSeconds: 5}
+          livenessProbe: {httpGet: {path: /health, port: 8005}, initialDelaySeconds: 10, periodSeconds: 10}
+          resources: {requests: {cpu: 50m, memory: 96Mi}, limits: {cpu: 500m, memory: 256Mi}}
+---
+apiVersion: v1
+kind: Service
+metadata: {name: mock-bank, namespace: toll-wallet}
+spec:
+  selector: {app: mock-bank}
+  ports: [{port: 8005, targetPort: 8005}]

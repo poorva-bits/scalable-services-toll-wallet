@@ -1,5 +1,5 @@
 ============================= test session starts ==============================
-platform darwin -- Python 3.12.11, pytest-9.1.1, pluggy-1.7.0 -- /private/tmp/claude-501/-Users-avlview-faheem-Bits/3185366e-2b3e-4051-9a1e-8b990ac97a0b/scratchpad/venv/bin/python
+platform darwin -- Python 3.12.11, pytest-9.1.1, pluggy-1.7.0 -- .venv/bin/python
 rootdir: /Users/avlview/faheem/Bits/scalable-services-toll-wallet/services/toll-transaction
 plugins: anyio-4.15.1
 collecting ... collected 11 items
