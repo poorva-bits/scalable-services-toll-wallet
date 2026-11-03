@@ -6,12 +6,14 @@ from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
 
 from app.errors import AppError
+from app.metrics import install as install_metrics
 from app.routes import router
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
 logger = logging.getLogger("registry")
 
 app = FastAPI(title="Vehicle Registry Service")
+install_metrics(app, "vehicle-registry")
 
 
 def error_body(request: Request, code: str, message: str) -> dict:

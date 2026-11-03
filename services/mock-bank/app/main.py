@@ -7,12 +7,14 @@ from fastapi.responses import JSONResponse
 
 from app import bank
 from app.errors import AppError
+from app.metrics import install as install_metrics
 from app.routes import router
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
 logger = logging.getLogger("mock-bank")
 
 app = FastAPI(title="Mock Bank")
+install_metrics(app, "mock-bank")
 
 
 def error_body(request: Request, code: str, message: str) -> dict:
