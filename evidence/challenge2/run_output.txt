@@ -1,0 +1,18 @@
+setup: wallet 3 balance 100000, vehicle C2-TRUCK-d52b55, toll 5000
+
+=== 1. Same Idempotency-Key sent 3 times in a row ===
+  call 1: HTTP 201 {"id": 1, "vehicle_id": "C2-TRUCK-d52b55", "gate_id": "GATE-7", "wallet_id": 3, "amount": 5000, "status": "COMPLETED", "failure_reason": null, "created_at": "2026-11-03T14:45:14", "updated_at": "2026-11-03T14:45:14"}
+  call 2: HTTP 201 {"id": 1, "amount": 5000, "status": "COMPLETED", "gate_id": "GATE-7", "wallet_id": 3, "created_at": "2026-11-03T14:45:14", "updated_at": "2026-11-03T14:45:14", "vehicle_id": "C2-TRUCK-d52b55", "failure_reason": null}
+  call 3: HTTP 201 {"id": 1, "amount": 5000, "status": "COMPLETED", "gate_id": "GATE-7", "wallet_id": 3, "created_at": "2026-11-03T14:45:14", "updated_at": "2026-11-03T14:45:14", "vehicle_id": "C2-TRUCK-d52b55", "failure_reason": null}
+
+=== 2. Same key, different payload (amount 9999) ===
+  HTTP 422 {"error": {"code": "IDEMPOTENCY_KEY_REUSED", "message": "Idempotency-Key was already used with a different request body", "request_id": "981dc704-7ecb-493e-8648-0b79ae60fb9b"}}
+
+=== 3. 20 identical requests with one new key fired at the same moment ===
+  status codes: [201, 201, 201, 201, 201, 201, 201, 201, 201, 201, 201, 201, 201, 201, 201, 201, 201, 201, 201, 201]
+  distinct crossing ids returned: [2]
+
+=== Result ===
+  wallet balance: 90000 (expected 100000 - 2 x 5000 = 90000)
+  wallet DEDUCT ledger rows: 2 (expected 2, one per key)
+  vehicle: C2-TRUCK-d52b55  (count its crossings in toll_db, expected 2)
