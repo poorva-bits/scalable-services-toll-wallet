@@ -11,3 +11,4 @@ NOTIFICATION_URL = os.getenv("NOTIFICATION_URL", "")  # only needed when USE_STU
 USE_STUBS = os.getenv("USE_STUBS", "true").lower() == "true"  # fake registry/notification until real ones exist
 STUB_WALLET_ID = int(os.getenv("STUB_WALLET_ID", "1"))  # wallet id the stub registry returns
 HTTP_TIMEOUT = float(os.getenv("HTTP_TIMEOUT", "3"))  # seconds to wait on other services
+IDEMPOTENCY_WAIT_SECONDS = float(os.getenv("IDEMPOTENCY_WAIT_SECONDS", "10"))  # how long a duplicate waits for the first request
