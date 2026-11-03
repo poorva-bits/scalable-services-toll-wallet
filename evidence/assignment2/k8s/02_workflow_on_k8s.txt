@@ -1,0 +1,55 @@
+$ kubectl -n toll-wallet get deploy,svc
+NAME                               READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/mock-bank          1/1     1            1           6m19s
+deployment.apps/notification       1/1     1            1           6m18s
+deployment.apps/registry-db        1/1     1            1           6m20s
+deployment.apps/toll-db            1/1     1            1           6m19s
+deployment.apps/toll-transaction   2/2     2            2           6m18s
+deployment.apps/vehicle-registry   2/2     2            2           6m16s
+deployment.apps/wallet             2/2     2            2           6m15s
+deployment.apps/wallet-db          1/1     1            1           6m19s
+
+NAME                       TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)    AGE
+service/mock-bank          ClusterIP   10.105.37.89     <none>        8005/TCP   6m18s
+service/notification       ClusterIP   10.106.56.86     <none>        8004/TCP   6m18s
+service/registry-db        ClusterIP   10.99.5.190      <none>        3306/TCP   6m20s
+service/toll-db            ClusterIP   10.107.64.243    <none>        3306/TCP   6m19s
+service/toll-transaction   ClusterIP   10.109.114.64    <none>        8002/TCP   6m17s
+service/vehicle-registry   ClusterIP   10.97.19.148     <none>        8003/TCP   6m16s
+service/wallet             ClusterIP   10.106.86.214    <none>        8001/TCP   6m15s
+service/wallet-db          ClusterIP   10.107.169.234   <none>        3306/TCP   6m19s
+
+$ ./k8s/port-forward.sh &   then   python scripts/e2e_test.py
+=== 0. All services healthy ===
+  [PASS] wallet /health  (HTTP 200)
+  [PASS] toll-transaction /health  (HTTP 200)
+  [PASS] vehicle-registry /health  (HTTP 200)
+  [PASS] notification /health  (HTTP 200)
+  [PASS] mock-bank /health  (HTTP 200)
+
+=== 1. Setup: wallet, top-up through the bank, vehicle ===
+  [PASS] top-up of 20000 via Mock Bank  (HTTP 200)
+  [PASS] vehicle registered  (HTTP 201)
+
+=== 2. Main transaction: crossing -> Registry -> Wallet -> Notification ===
+  [PASS] crossing returns 201 COMPLETED  (HTTP 201)
+  [PASS] wallet charged once: balance 15000  (balance 15000)
+  [PASS] ledger DEDUCT uses reference crossing-<id>
+
+=== 3. Failure path: insufficient balance ===
+  [PASS] 409 INSUFFICIENT_BALANCE  (HTTP 409)
+  [PASS] crossing recorded as FAILED
+  [PASS] balance unchanged at 15000
+
+=== 4. Failure path: deactivated vehicle (BR5) ===
+  [PASS] 409 VEHICLE_INACTIVE  (HTTP 409)
+  [PASS] balance unchanged at 15000
+
+=== 5. Failure path: unregistered vehicle ===
+  [PASS] 404 VEHICLE_NOT_FOUND  (HTTP 404)
+
+=== 6. Failure path: bank down during top-up ===
+  [PASS] 502 BANK_UNAVAILABLE after retries  (HTTP 502)
+  [PASS] balance unchanged at 15000
+
+RESULT: PASS (0 failed checks)

@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata: {name: toll-transaction, namespace: toll-wallet, labels: {app: toll-transaction}}
+spec:
+  replicas: 2
+  selector: {matchLabels: {app: toll-transaction}}
+  template:
+    metadata: {labels: {app: toll-transaction}}
+    spec:
+      initContainers:   # wait until this service's own database accepts connections
+        - name: wait-for-db
+          image: toll-wallet/toll-transaction:1.0
+          imagePullPolicy: Never
+          command: ["python", "-c", "import socket,time\nwhile True:\n  try: socket.create_connection(('toll-db',3306),2); break\n  except OSError: print('waiting for toll-db'); time.sleep(2)"]
+      containers:
+        - name: toll-transaction
+          image: toll-wallet/toll-transaction:1.0
+          imagePullPolicy: Never   # built inside Minikube by deploy.sh
+          ports: [{containerPort: 8002}]
+          env:
+            - {name: DB_USER, valueFrom: {secretKeyRef: {name: db-credentials, key: TOLL_DB_USER}}}
+            - {name: DB_PASSWORD, valueFrom: {secretKeyRef: {name: db-credentials, key: TOLL_DB_PASSWORD}}}
+            - {name: DATABASE_URL, value: "mysql+pymysql://$(DB_USER):$(DB_PASSWORD)@toll-db:3306/toll_db"}
+            - {name: WALLET_URL, value: "http://wallet:8001"}
+            - {name: REGISTRY_URL, value: "http://vehicle-registry:8003"}
+            - {name: NOTIFICATION_URL, value: "http://notification:8004"}
+            - {name: USE_STUBS, value: "false"}
+            - {name: HTTP_TIMEOUT, value: "3"}
+          readinessProbe: {httpGet: {path: /health, port: 8002}, periodSeconds: 5}
+          livenessProbe: {httpGet: {path: /health, port: 8002}, initialDelaySeconds: 10, periodSeconds: 10}
+          resources: {requests: {cpu: 50m, memory: 96Mi}, limits: {cpu: 500m, memory: 256Mi}}
+---
+apiVersion: v1
+kind: Service
+metadata: {name: toll-transaction, namespace: toll-wallet}
+spec:
+  selector: {app: toll-transaction}
+  ports: [{port: 8002, targetPort: 8002}]

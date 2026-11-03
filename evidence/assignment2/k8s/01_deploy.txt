@@ -1,0 +1,656 @@
+== Building images inside Minikube (works with the containerd runtime) ==
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 246B 0.0s done
+#1 DONE 0.1s
+
+#2 [internal] load metadata for docker.io/library/python:3.12-slim
+#2 DONE 11.8s
+
+#3 [internal] load .dockerignore
+#3 transferring context: 82B done
+#3 DONE 0.1s
+
+#4 [1/5] FROM docker.io/library/python:3.12-slim@sha256:b18b261e1b4974b4f321451ad5251ded85abb22c2b8b262da527dda1d031ab30
+#4 resolve docker.io/library/python:3.12-slim@sha256:b18b261e1b4974b4f321451ad5251ded85abb22c2b8b262da527dda1d031ab30 0.1s done
+#4 DONE 0.1s
+
+#5 [internal] load build context
+#5 transferring context: 14.26kB 0.0s done
+#5 DONE 0.1s
+
+#4 [1/5] FROM docker.io/library/python:3.12-slim@sha256:b18b261e1b4974b4f321451ad5251ded85abb22c2b8b262da527dda1d031ab30
+#4 DONE 0.3s
+
+#4 [1/5] FROM docker.io/library/python:3.12-slim@sha256:b18b261e1b4974b4f321451ad5251ded85abb22c2b8b262da527dda1d031ab30
+#4 sha256:acca7542dfc736e9ce20cbefc58b2d09822276d15d4a0c531531a6f1b057928e 0B / 251B 0.2s
+#4 sha256:f574edac59d9f092df596f54e5b52656c803fd3ae30825b8ee5a189ed05f63d3 0B / 12.12MB 0.2s
+#4 sha256:6fc242d221a673263eabd14a9ad9584d3177c96e5cb504c891497338e2f912f5 0B / 29.86MB 0.2s
+#4 sha256:3eb77115150676568f88e2957181b8f7e3014e797f1ce8cd640086dfbed45e35 0B / 1.29MB 0.2s
+#4 sha256:acca7542dfc736e9ce20cbefc58b2d09822276d15d4a0c531531a6f1b057928e 251B / 251B 0.3s done
+#4 sha256:f574edac59d9f092df596f54e5b52656c803fd3ae30825b8ee5a189ed05f63d3 1.05MB / 12.12MB 1.1s
+#4 sha256:f574edac59d9f092df596f54e5b52656c803fd3ae30825b8ee5a189ed05f63d3 2.10MB / 12.12MB 1.2s
+#4 sha256:f574edac59d9f092df596f54e5b52656c803fd3ae30825b8ee5a189ed05f63d3 3.15MB / 12.12MB 1.4s
+#4 sha256:f574edac59d9f092df596f54e5b52656c803fd3ae30825b8ee5a189ed05f63d3 4.19MB / 12.12MB 1.5s
+#4 sha256:f574edac59d9f092df596f54e5b52656c803fd3ae30825b8ee5a189ed05f63d3 5.24MB / 12.12MB 1.7s
+#4 sha256:f574edac59d9f092df596f54e5b52656c803fd3ae30825b8ee5a189ed05f63d3 6.56MB / 12.12MB 1.8s
+#4 sha256:f574edac59d9f092df596f54e5b52656c803fd3ae30825b8ee5a189ed05f63d3 8.39MB / 12.12MB 2.0s
+#4 sha256:f574edac59d9f092df596f54e5b52656c803fd3ae30825b8ee5a189ed05f63d3 9.44MB / 12.12MB 2.1s
+#4 sha256:f574edac59d9f092df596f54e5b52656c803fd3ae30825b8ee5a189ed05f63d3 10.49MB / 12.12MB 2.3s
+#4 sha256:f574edac59d9f092df596f54e5b52656c803fd3ae30825b8ee5a189ed05f63d3 12.12MB / 12.12MB 2.5s
+#4 sha256:f574edac59d9f092df596f54e5b52656c803fd3ae30825b8ee5a189ed05f63d3 12.12MB / 12.12MB 2.5s done
+#4 sha256:6fc242d221a673263eabd14a9ad9584d3177c96e5cb504c891497338e2f912f5 3.15MB / 29.86MB 2.9s
+#4 sha256:6fc242d221a673263eabd14a9ad9584d3177c96e5cb504c891497338e2f912f5 5.24MB / 29.86MB 3.3s
+#4 sha256:6fc242d221a673263eabd14a9ad9584d3177c96e5cb504c891497338e2f912f5 7.34MB / 29.86MB 3.6s
+#4 sha256:6fc242d221a673263eabd14a9ad9584d3177c96e5cb504c891497338e2f912f5 9.44MB / 29.86MB 3.9s
+#4 sha256:6fc242d221a673263eabd14a9ad9584d3177c96e5cb504c891497338e2f912f5 11.53MB / 29.86MB 4.2s
+#4 sha256:6fc242d221a673263eabd14a9ad9584d3177c96e5cb504c891497338e2f912f5 13.63MB / 29.86MB 4.7s
+#4 sha256:6fc242d221a673263eabd14a9ad9584d3177c96e5cb504c891497338e2f912f5 15.73MB / 29.86MB 5.0s
+#4 sha256:6fc242d221a673263eabd14a9ad9584d3177c96e5cb504c891497338e2f912f5 17.83MB / 29.86MB 5.3s
+#4 sha256:3eb77115150676568f88e2957181b8f7e3014e797f1ce8cd640086dfbed45e35 0B / 1.29MB 5.3s
+#4 sha256:6fc242d221a673263eabd14a9ad9584d3177c96e5cb504c891497338e2f912f5 19.92MB / 29.86MB 5.6s
+#4 sha256:6fc242d221a673263eabd14a9ad9584d3177c96e5cb504c891497338e2f912f5 22.02MB / 29.86MB 6.0s
+#4 sha256:6fc242d221a673263eabd14a9ad9584d3177c96e5cb504c891497338e2f912f5 24.12MB / 29.86MB 6.3s
+#4 sha256:6fc242d221a673263eabd14a9ad9584d3177c96e5cb504c891497338e2f912f5 26.21MB / 29.86MB 6.8s
+#4 sha256:6fc242d221a673263eabd14a9ad9584d3177c96e5cb504c891497338e2f912f5 28.31MB / 29.86MB 7.2s
+#4 sha256:6fc242d221a673263eabd14a9ad9584d3177c96e5cb504c891497338e2f912f5 29.86MB / 29.86MB 7.5s
+#4 sha256:6fc242d221a673263eabd14a9ad9584d3177c96e5cb504c891497338e2f912f5 29.86MB / 29.86MB 7.6s done
+#4 extracting sha256:6fc242d221a673263eabd14a9ad9584d3177c96e5cb504c891497338e2f912f5
+#4 sha256:3eb77115150676568f88e2957181b8f7e3014e797f1ce8cd640086dfbed45e35 1.29MB / 1.29MB 7.9s done
+#4 extracting sha256:6fc242d221a673263eabd14a9ad9584d3177c96e5cb504c891497338e2f912f5 6.8s done
+#4 DONE 14.8s
+
+#4 [1/5] FROM docker.io/library/python:3.12-slim@sha256:b18b261e1b4974b4f321451ad5251ded85abb22c2b8b262da527dda1d031ab30
+#4 extracting sha256:3eb77115150676568f88e2957181b8f7e3014e797f1ce8cd640086dfbed45e35
+#4 extracting sha256:3eb77115150676568f88e2957181b8f7e3014e797f1ce8cd640086dfbed45e35 0.9s done
+#4 DONE 15.7s
+
+#4 [1/5] FROM docker.io/library/python:3.12-slim@sha256:b18b261e1b4974b4f321451ad5251ded85abb22c2b8b262da527dda1d031ab30
+#4 extracting sha256:f574edac59d9f092df596f54e5b52656c803fd3ae30825b8ee5a189ed05f63d3
+#4 extracting sha256:f574edac59d9f092df596f54e5b52656c803fd3ae30825b8ee5a189ed05f63d3 3.6s done
+#4 DONE 19.3s
+
+#4 [1/5] FROM docker.io/library/python:3.12-slim@sha256:b18b261e1b4974b4f321451ad5251ded85abb22c2b8b262da527dda1d031ab30
+#4 extracting sha256:acca7542dfc736e9ce20cbefc58b2d09822276d15d4a0c531531a6f1b057928e 0.1s done
+#4 DONE 19.4s
+
+#6 [2/5] WORKDIR /app
+#6 DONE 0.8s
+
+#7 [3/5] COPY requirements.txt .
+#7 DONE 0.3s
+
+#8 [4/5] RUN pip install --no-cache-dir -r requirements.txt
+#8 12.61 Collecting annotated-doc==0.0.5 (from -r requirements.txt (line 1))
+#8 12.84   Downloading annotated_doc-0.0.5-py3-none-any.whl.metadata (6.5 kB)
+#8 12.91 Collecting annotated-types==0.8.0 (from -r requirements.txt (line 2))
+#8 12.95   Downloading annotated_types-0.8.0-py3-none-any.whl.metadata (15 kB)
+#8 13.15 Collecting anyio==4.15.1 (from -r requirements.txt (line 3))
+#8 13.19   Downloading anyio-4.15.1-py3-none-any.whl.metadata (4.7 kB)
+#8 13.41 Collecting certifi==2026.10.23 (from -r requirements.txt (line 4))
+#8 13.46   Downloading certifi-2026.10.23-py3-none-any.whl.metadata (2.5 kB)
+#8 14.31 Collecting cffi==2.1.1 (from -r requirements.txt (line 5))
+#8 14.35   Downloading cffi-2.1.1-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (2.5 kB)
+#8 14.48 Collecting click==8.5.0 (from -r requirements.txt (line 6))
+#8 14.53   Downloading click-8.5.0-py3-none-any.whl.metadata (2.6 kB)
+#8 14.65 Collecting colorama==0.4.6 (from -r requirements.txt (line 7))
+#8 14.69   Downloading colorama-0.4.6-py2.py3-none-any.whl.metadata (17 kB)
+#8 16.49 Collecting cryptography==50.0.2 (from -r requirements.txt (line 8))
+#8 16.53   Downloading cryptography-50.0.2-cp311-abi3-manylinux_2_34_x86_64.whl.metadata (4.4 kB)
+#8 17.03 Collecting fastapi==0.162.0 (from -r requirements.txt (line 9))
+#8 17.08   Downloading fastapi-0.162.0-py3-none-any.whl.metadata (26 kB)
+#8 17.21 Collecting h11==0.16.0 (from -r requirements.txt (line 10))
+#8 17.25   Downloading h11-0.16.0-py3-none-any.whl.metadata (8.3 kB)
+#8 17.40 Collecting httpcore==1.0.9 (from -r requirements.txt (line 11))
+#8 17.44   Downloading httpcore-1.0.9-py3-none-any.whl.metadata (21 kB)
+#8 17.66 Collecting httpx==0.28.1 (from -r requirements.txt (line 12))
+#8 17.71   Downloading httpx-0.28.1-py3-none-any.whl.metadata (7.1 kB)
+#8 17.84 Collecting idna==3.20 (from -r requirements.txt (line 13))
+#8 17.89   Downloading idna-3.20-py3-none-any.whl.metadata (7.2 kB)
+#8 17.97 Collecting iniconfig==2.3.1 (from -r requirements.txt (line 14))
+#8 18.03   Downloading iniconfig-2.3.1-py3-none-any.whl.metadata (2.8 kB)
+#8 18.20 Collecting opentelemetry-api==1.45.1 (from -r requirements.txt (line 15))
+#8 18.24   Downloading opentelemetry_api-1.45.1-py3-none-any.whl.metadata (1.4 kB)
+#8 18.40 Collecting packaging==26.3 (from -r requirements.txt (line 16))
+#8 18.46   Downloading packaging-26.3-py3-none-any.whl.metadata (3.5 kB)
+#8 18.56 Collecting pluggy==1.7.0 (from -r requirements.txt (line 17))
+#8 18.60   Downloading pluggy-1.7.0-py3-none-any.whl.metadata (5.0 kB)
+#8 18.68 Collecting pycparser==3.12 (from -r requirements.txt (line 18))
+#8 18.72   Downloading pycparser-3.12-py3-none-any.whl.metadata (9.7 kB)
+#8 19.68 Collecting pydantic==2.14.1 (from -r requirements.txt (line 19))
+#8 19.73   Downloading pydantic-2.14.1-py3-none-any.whl.metadata (133 kB)
+#8 26.02 Collecting pydantic_core==2.50.1 (from -r requirements.txt (line 20))
+#8 26.07   Downloading pydantic_core-2.50.1-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (6.5 kB)
+#8 26.20 Collecting Pygments==2.21.0 (from -r requirements.txt (line 21))
+#8 26.26   Downloading pygments-2.21.0-py3-none-any.whl.metadata (2.5 kB)
+#8 26.37 Collecting PyMySQL==1.2.3 (from -r requirements.txt (line 22))
+#8 26.41   Downloading pymysql-1.2.3-py3-none-any.whl.metadata (4.2 kB)
+#8 26.67 Collecting pytest==9.1.1 (from -r requirements.txt (line 23))
+#8 26.72   Downloading pytest-9.1.1-py3-none-any.whl.metadata (7.6 kB)
+#8 26.85 Collecting python-dotenv==1.2.4 (from -r requirements.txt (line 24))
+#8 26.89   Downloading python_dotenv-1.2.4-py3-none-any.whl.metadata (29 kB)
+#8 29.29 Collecting SQLAlchemy==2.1.6 (from -r requirements.txt (line 25))
+#8 29.34   Downloading sqlalchemy-2.1.6-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (9.7 kB)
+#8 29.62 Collecting starlette==1.9.0 (from -r requirements.txt (line 26))
+#8 29.67   Downloading starlette-1.9.0-py3-none-any.whl.metadata (6.6 kB)
+#8 29.75 Collecting typing-inspection==0.4.4 (from -r requirements.txt (line 27))
+#8 29.79   Downloading typing_inspection-0.4.4-py3-none-any.whl.metadata (2.6 kB)
+#8 30.01 Collecting typing_extensions==4.16.0 (from -r requirements.txt (line 28))
+#8 30.07   Downloading typing_extensions-4.16.0-py3-none-any.whl.metadata (3.3 kB)
+#8 30.65 Collecting uvicorn==0.54.0 (from -r requirements.txt (line 29))
+#8 30.79   Downloading uvicorn-0.54.0-py3-none-any.whl.metadata (6.6 kB)
+#8 32.05 Downloading annotated_doc-0.0.5-py3-none-any.whl (5.3 kB)
+#8 32.10 Downloading annotated_types-0.8.0-py3-none-any.whl (13 kB)
+#8 32.15 Downloading anyio-4.15.1-py3-none-any.whl (132 kB)
+#8 32.20 Downloading certifi-2026.10.23-py3-none-any.whl (135 kB)
+#8 32.27 Downloading cffi-2.1.1-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (221 kB)
+#8 32.38 Downloading click-8.5.0-py3-none-any.whl (125 kB)
+#8 32.43 Downloading colorama-0.4.6-py2.py3-none-any.whl (25 kB)
+#8 32.48 Downloading cryptography-50.0.2-cp311-abi3-manylinux_2_34_x86_64.whl (4.8 MB)
+#8 34.62    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 4.8/4.8 MB 2.2 MB/s eta 0:00:00
+#8 34.71 Downloading fastapi-0.162.0-py3-none-any.whl (148 kB)
+#8 34.91 Downloading h11-0.16.0-py3-none-any.whl (37 kB)
+#8 34.96 Downloading httpcore-1.0.9-py3-none-any.whl (78 kB)
+#8 35.05 Downloading httpx-0.28.1-py3-none-any.whl (73 kB)
+#8 35.12 Downloading idna-3.20-py3-none-any.whl (69 kB)
+#8 35.22 Downloading iniconfig-2.3.1-py3-none-any.whl (7.6 kB)
+#8 35.29 Downloading opentelemetry_api-1.45.1-py3-none-any.whl (60 kB)
+#8 35.36 Downloading packaging-26.3-py3-none-any.whl (129 kB)
+#8 35.47 Downloading pluggy-1.7.0-py3-none-any.whl (27 kB)
+#8 35.90 Downloading pycparser-3.12-py3-none-any.whl (62 kB)
+#8 36.06 Downloading pydantic-2.14.1-py3-none-any.whl (488 kB)
+#8 36.83 Downloading pydantic_core-2.50.1-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (2.2 MB)
+#8 39.08    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 2.2/2.2 MB 1.1 MB/s eta 0:00:00
+#8 39.13 Downloading pygments-2.21.0-py3-none-any.whl (1.3 MB)
+#8 39.94    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.3/1.3 MB 1.6 MB/s eta 0:00:00
+#8 39.98 Downloading pymysql-1.2.3-py3-none-any.whl (46 kB)
+#8 40.10 Downloading pytest-9.1.1-py3-none-any.whl (386 kB)
+#8 40.34 Downloading python_dotenv-1.2.4-py3-none-any.whl (23 kB)
+#8 40.39 Downloading sqlalchemy-2.1.6-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (4.7 MB)
+#8 43.26    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 4.7/4.7 MB 1.7 MB/s eta 0:00:00
+#8 43.32 Downloading starlette-1.9.0-py3-none-any.whl (80 kB)
+#8 43.43 Downloading typing_inspection-0.4.4-py3-none-any.whl (14 kB)
+#8 43.47 Downloading typing_extensions-4.16.0-py3-none-any.whl (45 kB)
+#8 43.53 Downloading uvicorn-0.54.0-py3-none-any.whl (87 kB)
+#8 44.44 Installing collected packages: typing_extensions, python-dotenv, PyMySQL, Pygments, pycparser, pluggy, packaging, iniconfig, idna, h11, colorama, click, certifi, annotated-types, annotated-doc, uvicorn, typing-inspection, SQLAlchemy, pytest, pydantic_core, opentelemetry-api, httpcore, cffi, anyio, starlette, pydantic, httpx, cryptography, fastapi
+#8 72.60 Successfully installed PyMySQL-1.2.3 Pygments-2.21.0 SQLAlchemy-2.1.6 annotated-doc-0.0.5 annotated-types-0.8.0 anyio-4.15.1 certifi-2026.10.23 cffi-2.1.1 click-8.5.0 colorama-0.4.6 cryptography-50.0.2 fastapi-0.162.0 h11-0.16.0 httpcore-1.0.9 httpx-0.28.1 idna-3.20 iniconfig-2.3.1 opentelemetry-api-1.45.1 packaging-26.3 pluggy-1.7.0 pycparser-3.12 pydantic-2.14.1 pydantic_core-2.50.1 pytest-9.1.1 python-dotenv-1.2.4 starlette-1.9.0 typing-inspection-0.4.4 typing_extensions-4.16.0 uvicorn-0.54.0
+#8 72.61 WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
+#8 73.15 
+#8 73.15 [notice] A new release of pip is available: 25.0.1 -> 26.3
+#8 73.15 [notice] To update, run: pip install --upgrade pip
+#8 DONE 74.5s
+
+#9 [5/5] COPY app ./app
+#9 DONE 0.3s
+
+#10 exporting to image
+#10 exporting layers
+#10 exporting layers 20.2s done
+#10 exporting manifest sha256:01a9f738924396482b481df1af3abc1f522cf8d368f33464257fed32fb8fcd03
+#10 exporting manifest sha256:01a9f738924396482b481df1af3abc1f522cf8d368f33464257fed32fb8fcd03 0.0s done
+#10 exporting config sha256:5ac09da656d9e4b8bd7babf6626e81adce774b472cafd0d4134fc040565520ca 0.1s done
+#10 naming to docker.io/toll-wallet/wallet:1.0 0.0s done
+#10 DONE 20.4s
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 246B 0.0s done
+#1 DONE 0.1s
+
+#2 [internal] load metadata for docker.io/library/python:3.12-slim
+#2 DONE 1.0s
+
+#3 [internal] load .dockerignore
+#3 transferring context: 82B 0.0s done
+#3 DONE 0.0s
+
+#4 [internal] load build context
+#4 transferring context: 16.28kB 0.0s done
+#4 DONE 0.1s
+
+#5 [1/5] FROM docker.io/library/python:3.12-slim@sha256:b18b261e1b4974b4f321451ad5251ded85abb22c2b8b262da527dda1d031ab30
+#5 resolve docker.io/library/python:3.12-slim@sha256:b18b261e1b4974b4f321451ad5251ded85abb22c2b8b262da527dda1d031ab30 0.1s done
+#5 DONE 0.1s
+
+#6 [2/5] WORKDIR /app
+#6 CACHED
+
+#7 [3/5] COPY requirements.txt .
+#7 DONE 0.1s
+
+#8 [4/5] RUN pip install --no-cache-dir -r requirements.txt
+#8 11.25 Collecting annotated-doc==0.0.5 (from -r requirements.txt (line 1))
+#8 11.53   Downloading annotated_doc-0.0.5-py3-none-any.whl.metadata (6.5 kB)
+#8 11.62 Collecting annotated-types==0.8.0 (from -r requirements.txt (line 2))
+#8 11.68   Downloading annotated_types-0.8.0-py3-none-any.whl.metadata (15 kB)
+#8 11.93 Collecting anyio==4.16.0 (from -r requirements.txt (line 3))
+#8 11.98   Downloading anyio-4.16.0-py3-none-any.whl.metadata (4.7 kB)
+#8 12.18 Collecting certifi==2026.10.23 (from -r requirements.txt (line 4))
+#8 12.22   Downloading certifi-2026.10.23-py3-none-any.whl.metadata (2.5 kB)
+#8 12.92 Collecting cffi==2.1.1 (from -r requirements.txt (line 5))
+#8 12.97   Downloading cffi-2.1.1-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (2.5 kB)
+#8 13.09 Collecting click==8.5.0 (from -r requirements.txt (line 6))
+#8 13.14   Downloading click-8.5.0-py3-none-any.whl.metadata (2.6 kB)
+#8 13.25 Collecting colorama==0.4.6 (from -r requirements.txt (line 7))
+#8 13.30   Downloading colorama-0.4.6-py2.py3-none-any.whl.metadata (17 kB)
+#8 14.94 Collecting cryptography==50.0.2 (from -r requirements.txt (line 8))
+#8 14.99   Downloading cryptography-50.0.2-cp311-abi3-manylinux_2_34_x86_64.whl.metadata (4.4 kB)
+#8 15.47 Collecting fastapi==0.162.0 (from -r requirements.txt (line 9))
+#8 15.53   Downloading fastapi-0.162.0-py3-none-any.whl.metadata (26 kB)
+#8 15.72 Collecting h11==0.16.0 (from -r requirements.txt (line 10))
+#8 15.77   Downloading h11-0.16.0-py3-none-any.whl.metadata (8.3 kB)
+#8 15.96 Collecting httpcore==1.0.9 (from -r requirements.txt (line 11))
+#8 16.01   Downloading httpcore-1.0.9-py3-none-any.whl.metadata (21 kB)
+#8 16.21 Collecting httpx==0.28.1 (from -r requirements.txt (line 12))
+#8 16.26   Downloading httpx-0.28.1-py3-none-any.whl.metadata (7.1 kB)
+#8 16.39 Collecting idna==3.20 (from -r requirements.txt (line 13))
+#8 16.44   Downloading idna-3.20-py3-none-any.whl.metadata (7.2 kB)
+#8 16.53 Collecting iniconfig==2.3.1 (from -r requirements.txt (line 14))
+#8 16.58   Downloading iniconfig-2.3.1-py3-none-any.whl.metadata (2.8 kB)
+#8 16.76 Collecting opentelemetry-api==1.45.2 (from -r requirements.txt (line 15))
+#8 16.80   Downloading opentelemetry_api-1.45.2-py3-none-any.whl.metadata (1.4 kB)
+#8 16.91 Collecting packaging==26.3 (from -r requirements.txt (line 16))
+#8 16.95   Downloading packaging-26.3-py3-none-any.whl.metadata (3.5 kB)
+#8 17.04 Collecting pluggy==1.7.0 (from -r requirements.txt (line 17))
+#8 17.09   Downloading pluggy-1.7.0-py3-none-any.whl.metadata (5.0 kB)
+#8 17.16 Collecting pycparser==3.12 (from -r requirements.txt (line 18))
+#8 17.20   Downloading pycparser-3.12-py3-none-any.whl.metadata (9.7 kB)
+#8 17.93 Collecting pydantic==2.14.2 (from -r requirements.txt (line 19))
+#8 17.98   Downloading pydantic-2.14.2-py3-none-any.whl.metadata (137 kB)
+#8 23.24 Collecting pydantic_core==2.50.2 (from -r requirements.txt (line 20))
+#8 23.31   Downloading pydantic_core-2.50.2-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (6.5 kB)
+#8 23.50 Collecting Pygments==2.21.0 (from -r requirements.txt (line 21))
+#8 23.54   Downloading pygments-2.21.0-py3-none-any.whl.metadata (2.5 kB)
+#8 23.76 Collecting PyMySQL==1.2.3 (from -r requirements.txt (line 22))
+#8 23.81   Downloading pymysql-1.2.3-py3-none-any.whl.metadata (4.2 kB)
+#8 24.16 Collecting pytest==9.2.0 (from -r requirements.txt (line 23))
+#8 24.31   Downloading pytest-9.2.0-py3-none-any.whl.metadata (7.9 kB)
+#8 24.61 Collecting python-dotenv==1.2.4 (from -r requirements.txt (line 24))
+#8 24.67   Downloading python_dotenv-1.2.4-py3-none-any.whl.metadata (29 kB)
+#8 27.10 Collecting SQLAlchemy==2.1.6 (from -r requirements.txt (line 25))
+#8 27.30   Downloading sqlalchemy-2.1.6-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (9.7 kB)
+#8 27.56 Collecting starlette==1.10.0 (from -r requirements.txt (line 26))
+#8 27.61   Downloading starlette-1.10.0-py3-none-any.whl.metadata (6.6 kB)
+#8 27.69 Collecting typing-inspection==0.4.4 (from -r requirements.txt (line 27))
+#8 27.73   Downloading typing_inspection-0.4.4-py3-none-any.whl.metadata (2.6 kB)
+#8 27.83 Collecting typing_extensions==4.16.0 (from -r requirements.txt (line 28))
+#8 27.88   Downloading typing_extensions-4.16.0-py3-none-any.whl.metadata (3.3 kB)
+#8 28.08 Collecting uvicorn==0.54.0 (from -r requirements.txt (line 29))
+#8 28.12   Downloading uvicorn-0.54.0-py3-none-any.whl.metadata (6.6 kB)
+#8 28.94 Downloading annotated_doc-0.0.5-py3-none-any.whl (5.3 kB)
+#8 29.03 Downloading annotated_types-0.8.0-py3-none-any.whl (13 kB)
+#8 29.08 Downloading anyio-4.16.0-py3-none-any.whl (134 kB)
+#8 29.15 Downloading certifi-2026.10.23-py3-none-any.whl (135 kB)
+#8 29.22 Downloading cffi-2.1.1-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (221 kB)
+#8 29.31 Downloading click-8.5.0-py3-none-any.whl (125 kB)
+#8 29.39 Downloading colorama-0.4.6-py2.py3-none-any.whl (25 kB)
+#8 29.45 Downloading cryptography-50.0.2-cp311-abi3-manylinux_2_34_x86_64.whl (4.8 MB)
+#8 30.24    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 4.8/4.8 MB 6.1 MB/s eta 0:00:00
+#8 30.29 Downloading fastapi-0.162.0-py3-none-any.whl (148 kB)
+#8 30.34 Downloading h11-0.16.0-py3-none-any.whl (37 kB)
+#8 30.38 Downloading httpcore-1.0.9-py3-none-any.whl (78 kB)
+#8 30.43 Downloading httpx-0.28.1-py3-none-any.whl (73 kB)
+#8 30.49 Downloading idna-3.20-py3-none-any.whl (69 kB)
+#8 30.53 Downloading iniconfig-2.3.1-py3-none-any.whl (7.6 kB)
+#8 30.58 Downloading opentelemetry_api-1.45.2-py3-none-any.whl (60 kB)
+#8 30.62 Downloading packaging-26.3-py3-none-any.whl (129 kB)
+#8 30.67 Downloading pluggy-1.7.0-py3-none-any.whl (27 kB)
+#8 30.72 Downloading pycparser-3.12-py3-none-any.whl (62 kB)
+#8 30.76 Downloading pydantic-2.14.2-py3-none-any.whl (490 kB)
+#8 30.86 Downloading pydantic_core-2.50.2-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (2.2 MB)
+#8 31.13    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 2.2/2.2 MB 8.9 MB/s eta 0:00:00
+#8 31.18 Downloading pygments-2.21.0-py3-none-any.whl (1.3 MB)
+#8 31.30    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.3/1.3 MB 11.3 MB/s eta 0:00:00
+#8 31.35 Downloading pymysql-1.2.3-py3-none-any.whl (46 kB)
+#8 31.41 Downloading pytest-9.2.0-py3-none-any.whl (411 kB)
+#8 31.48 Downloading python_dotenv-1.2.4-py3-none-any.whl (23 kB)
+#8 31.55 Downloading sqlalchemy-2.1.6-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (4.7 MB)
+#8 32.02    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 4.7/4.7 MB 10.2 MB/s eta 0:00:00
+#8 32.08 Downloading starlette-1.10.0-py3-none-any.whl (80 kB)
+#8 32.13 Downloading typing_inspection-0.4.4-py3-none-any.whl (14 kB)
+#8 32.17 Downloading typing_extensions-4.16.0-py3-none-any.whl (45 kB)
+#8 32.22 Downloading uvicorn-0.54.0-py3-none-any.whl (87 kB)
+#8 32.97 Installing collected packages: typing_extensions, python-dotenv, PyMySQL, Pygments, pycparser, pluggy, packaging, iniconfig, idna, h11, colorama, click, certifi, annotated-types, annotated-doc, uvicorn, typing-inspection, SQLAlchemy, pytest, pydantic_core, opentelemetry-api, httpcore, cffi, anyio, starlette, pydantic, httpx, cryptography, fastapi
+#8 62.81 Successfully installed PyMySQL-1.2.3 Pygments-2.21.0 SQLAlchemy-2.1.6 annotated-doc-0.0.5 annotated-types-0.8.0 anyio-4.16.0 certifi-2026.10.23 cffi-2.1.1 click-8.5.0 colorama-0.4.6 cryptography-50.0.2 fastapi-0.162.0 h11-0.16.0 httpcore-1.0.9 httpx-0.28.1 idna-3.20 iniconfig-2.3.1 opentelemetry-api-1.45.2 packaging-26.3 pluggy-1.7.0 pycparser-3.12 pydantic-2.14.2 pydantic_core-2.50.2 pytest-9.2.0 python-dotenv-1.2.4 starlette-1.10.0 typing-inspection-0.4.4 typing_extensions-4.16.0 uvicorn-0.54.0
+#8 62.82 WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
+#8 63.36 
+#8 63.36 [notice] A new release of pip is available: 25.0.1 -> 26.3
+#8 63.36 [notice] To update, run: pip install --upgrade pip
+#8 DONE 64.9s
+
+#9 [5/5] COPY app ./app
+#9 DONE 0.4s
+
+#10 exporting to image
+#10 exporting layers
+#10 exporting layers 23.6s done
+#10 exporting manifest sha256:573d3c7a8f38e1a40a904e73ff7969654c08f2bf093f75dc4856598681d1b314 0.1s done
+#10 exporting config sha256:bc7fe91b3b086bf2f30d2cdffea712bedcae4a145929ebf162eea24e7db7eae4 0.1s done
+#10 naming to docker.io/toll-wallet/toll-transaction:1.0
+#10 naming to docker.io/toll-wallet/toll-transaction:1.0 0.0s done
+#10 DONE 23.8s
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 594B 0.0s done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/python:3.12-slim
+#2 DONE 1.2s
+
+#3 [internal] load .dockerignore
+#3 transferring context: 82B 0.0s done
+#3 DONE 0.0s
+
+#4 [internal] load build context
+#4 DONE 0.0s
+
+#5 [1/6] FROM docker.io/library/python:3.12-slim@sha256:b18b261e1b4974b4f321451ad5251ded85abb22c2b8b262da527dda1d031ab30
+#5 resolve docker.io/library/python:3.12-slim@sha256:b18b261e1b4974b4f321451ad5251ded85abb22c2b8b262da527dda1d031ab30 0.1s done
+#5 DONE 0.1s
+
+#4 [internal] load build context
+#4 transferring context: 6.71kB 0.1s done
+#4 DONE 0.1s
+
+#6 [2/6] WORKDIR /app
+#6 CACHED
+
+#7 [3/6] COPY requirements.txt .
+#7 CACHED
+
+#8 [4/6] RUN pip install --no-cache-dir -r requirements.txt
+#8 9.754 Collecting annotated-doc==0.0.5 (from -r requirements.txt (line 1))
+#8 9.975   Downloading annotated_doc-0.0.5-py3-none-any.whl.metadata (6.5 kB)
+#8 10.06 Collecting annotated-types==0.8.0 (from -r requirements.txt (line 2))
+#8 10.10   Downloading annotated_types-0.8.0-py3-none-any.whl.metadata (15 kB)
+#8 10.25 Collecting anyio==4.15.1 (from -r requirements.txt (line 3))
+#8 10.30   Downloading anyio-4.15.1-py3-none-any.whl.metadata (4.7 kB)
+#8 10.45 Collecting certifi==2026.10.23 (from -r requirements.txt (line 4))
+#8 10.49   Downloading certifi-2026.10.23-py3-none-any.whl.metadata (2.5 kB)
+#8 11.39 Collecting cffi==2.1.1 (from -r requirements.txt (line 5))
+#8 11.47   Downloading cffi-2.1.1-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (2.5 kB)
+#8 11.64 Collecting click==8.5.0 (from -r requirements.txt (line 6))
+#8 11.69   Downloading click-8.5.0-py3-none-any.whl.metadata (2.6 kB)
+#8 11.88 Collecting colorama==0.4.6 (from -r requirements.txt (line 7))
+#8 11.93   Downloading colorama-0.4.6-py2.py3-none-any.whl.metadata (17 kB)
+#8 13.63 Collecting cryptography==50.0.2 (from -r requirements.txt (line 8))
+#8 13.67   Downloading cryptography-50.0.2-cp311-abi3-manylinux_2_34_x86_64.whl.metadata (4.4 kB)
+#8 14.20 Collecting fastapi==0.162.0 (from -r requirements.txt (line 9))
+#8 14.25   Downloading fastapi-0.162.0-py3-none-any.whl.metadata (26 kB)
+#8 14.38 Collecting h11==0.16.0 (from -r requirements.txt (line 10))
+#8 14.43   Downloading h11-0.16.0-py3-none-any.whl.metadata (8.3 kB)
+#8 14.56 Collecting httpcore==1.0.9 (from -r requirements.txt (line 11))
+#8 14.63   Downloading httpcore-1.0.9-py3-none-any.whl.metadata (21 kB)
+#8 14.79 Collecting httpx==0.28.1 (from -r requirements.txt (line 12))
+#8 14.85   Downloading httpx-0.28.1-py3-none-any.whl.metadata (7.1 kB)
+#8 14.96 Collecting idna==3.20 (from -r requirements.txt (line 13))
+#8 15.00   Downloading idna-3.20-py3-none-any.whl.metadata (7.2 kB)
+#8 15.09 Collecting iniconfig==2.3.1 (from -r requirements.txt (line 14))
+#8 15.13   Downloading iniconfig-2.3.1-py3-none-any.whl.metadata (2.8 kB)
+#8 15.29 Collecting opentelemetry-api==1.45.1 (from -r requirements.txt (line 15))
+#8 15.33   Downloading opentelemetry_api-1.45.1-py3-none-any.whl.metadata (1.4 kB)
+#8 15.44 Collecting packaging==26.3 (from -r requirements.txt (line 16))
+#8 15.49   Downloading packaging-26.3-py3-none-any.whl.metadata (3.5 kB)
+#8 15.59 Collecting pluggy==1.7.0 (from -r requirements.txt (line 17))
+#8 15.63   Downloading pluggy-1.7.0-py3-none-any.whl.metadata (5.0 kB)
+#8 15.73 Collecting pycparser==3.12 (from -r requirements.txt (line 18))
+#8 15.78   Downloading pycparser-3.12-py3-none-any.whl.metadata (9.7 kB)
+#8 16.54 Collecting pydantic==2.14.1 (from -r requirements.txt (line 19))
+#8 16.59   Downloading pydantic-2.14.1-py3-none-any.whl.metadata (133 kB)
+#8 21.89 Collecting pydantic_core==2.50.1 (from -r requirements.txt (line 20))
+#8 21.98   Downloading pydantic_core-2.50.1-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (6.5 kB)
+#8 22.16 Collecting Pygments==2.21.0 (from -r requirements.txt (line 21))
+#8 22.22   Downloading pygments-2.21.0-py3-none-any.whl.metadata (2.5 kB)
+#8 22.35 Collecting PyMySQL==1.2.3 (from -r requirements.txt (line 22))
+#8 22.39   Downloading pymysql-1.2.3-py3-none-any.whl.metadata (4.2 kB)
+#8 22.64 Collecting pytest==9.1.1 (from -r requirements.txt (line 23))
+#8 22.68   Downloading pytest-9.1.1-py3-none-any.whl.metadata (7.6 kB)
+#8 22.80 Collecting python-dotenv==1.2.4 (from -r requirements.txt (line 24))
+#8 22.87   Downloading python_dotenv-1.2.4-py3-none-any.whl.metadata (29 kB)
+#8 25.21 Collecting SQLAlchemy==2.1.6 (from -r requirements.txt (line 25))
+#8 25.27   Downloading sqlalchemy-2.1.6-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (9.7 kB)
+#8 25.57 Collecting starlette==1.9.0 (from -r requirements.txt (line 26))
+#8 25.62   Downloading starlette-1.9.0-py3-none-any.whl.metadata (6.6 kB)
+#8 25.70 Collecting typing-inspection==0.4.4 (from -r requirements.txt (line 27))
+#8 25.75   Downloading typing_inspection-0.4.4-py3-none-any.whl.metadata (2.6 kB)
+#8 25.88 Collecting typing_extensions==4.16.0 (from -r requirements.txt (line 28))
+#8 25.93   Downloading typing_extensions-4.16.0-py3-none-any.whl.metadata (3.3 kB)
+#8 26.14 Collecting uvicorn==0.54.0 (from -r requirements.txt (line 29))
+#8 26.19   Downloading uvicorn-0.54.0-py3-none-any.whl.metadata (6.6 kB)
+#8 27.04 Downloading annotated_doc-0.0.5-py3-none-any.whl (5.3 kB)
+#8 27.08 Downloading annotated_types-0.8.0-py3-none-any.whl (13 kB)
+#8 27.12 Downloading anyio-4.15.1-py3-none-any.whl (132 kB)
+#8 27.17 Downloading certifi-2026.10.23-py3-none-any.whl (135 kB)
+#8 27.23 Downloading cffi-2.1.1-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (221 kB)
+#8 27.30 Downloading click-8.5.0-py3-none-any.whl (125 kB)
+#8 27.37 Downloading colorama-0.4.6-py2.py3-none-any.whl (25 kB)
+#8 27.41 Downloading cryptography-50.0.2-cp311-abi3-manylinux_2_34_x86_64.whl (4.8 MB)
+#8 28.16    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 4.8/4.8 MB 6.4 MB/s eta 0:00:00
+#8 28.21 Downloading fastapi-0.162.0-py3-none-any.whl (148 kB)
+#8 28.28 Downloading h11-0.16.0-py3-none-any.whl (37 kB)
+#8 28.66 Downloading httpcore-1.0.9-py3-none-any.whl (78 kB)
+#8 29.05 Downloading httpx-0.28.1-py3-none-any.whl (73 kB)
+#8 29.11 Downloading idna-3.20-py3-none-any.whl (69 kB)
+#8 29.17 Downloading iniconfig-2.3.1-py3-none-any.whl (7.6 kB)
+#8 29.22 Downloading opentelemetry_api-1.45.1-py3-none-any.whl (60 kB)
+#8 29.26 Downloading packaging-26.3-py3-none-any.whl (129 kB)
+#8 29.32 Downloading pluggy-1.7.0-py3-none-any.whl (27 kB)
+#8 29.37 Downloading pycparser-3.12-py3-none-any.whl (62 kB)
+#8 29.43 Downloading pydantic-2.14.1-py3-none-any.whl (488 kB)
+#8 29.53 Downloading pydantic_core-2.50.1-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (2.2 MB)
+#8 29.90    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 2.2/2.2 MB 5.8 MB/s eta 0:00:00
+#8 29.95 Downloading pygments-2.21.0-py3-none-any.whl (1.3 MB)
+#8 30.15    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.3/1.3 MB 5.8 MB/s eta 0:00:00
+#8 30.20 Downloading pymysql-1.2.3-py3-none-any.whl (46 kB)
+#8 30.24 Downloading pytest-9.1.1-py3-none-any.whl (386 kB)
+#8 30.33 Downloading python_dotenv-1.2.4-py3-none-any.whl (23 kB)
+#8 30.38 Downloading sqlalchemy-2.1.6-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (4.7 MB)
+#8 31.03    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 4.7/4.7 MB 7.2 MB/s eta 0:00:00
+#8 31.08 Downloading starlette-1.9.0-py3-none-any.whl (80 kB)
+#8 31.12 Downloading typing_inspection-0.4.4-py3-none-any.whl (14 kB)
+#8 31.17 Downloading typing_extensions-4.16.0-py3-none-any.whl (45 kB)
+#8 31.21 Downloading uvicorn-0.54.0-py3-none-any.whl (87 kB)
+#8 32.31 Installing collected packages: typing_extensions, python-dotenv, PyMySQL, Pygments, pycparser, pluggy, packaging, iniconfig, idna, h11, colorama, click, certifi, annotated-types, annotated-doc, uvicorn, typing-inspection, SQLAlchemy, pytest, pydantic_core, opentelemetry-api, httpcore, cffi, anyio, starlette, pydantic, httpx, cryptography, fastapi
+#8 60.07 Successfully installed PyMySQL-1.2.3 Pygments-2.21.0 SQLAlchemy-2.1.6 annotated-doc-0.0.5 annotated-types-0.8.0 anyio-4.15.1 certifi-2026.10.23 cffi-2.1.1 click-8.5.0 colorama-0.4.6 cryptography-50.0.2 fastapi-0.162.0 h11-0.16.0 httpcore-1.0.9 httpx-0.28.1 idna-3.20 iniconfig-2.3.1 opentelemetry-api-1.45.1 packaging-26.3 pluggy-1.7.0 pycparser-3.12 pydantic-2.14.1 pydantic_core-2.50.1 pytest-9.1.1 python-dotenv-1.2.4 starlette-1.9.0 typing-inspection-0.4.4 typing_extensions-4.16.0 uvicorn-0.54.0
+#8 60.07 WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
+#8 60.61 
+#8 60.61 [notice] A new release of pip is available: 25.0.1 -> 26.3
+#8 60.61 [notice] To update, run: pip install --upgrade pip
+#8 DONE 62.6s
+
+#9 [5/6] COPY app ./app
+#9 DONE 0.3s
+
+#10 [6/6] RUN useradd --create-home appuser
+#10 DONE 1.0s
+
+#11 exporting to image
+#11 exporting layers
+#11 exporting layers 18.8s done
+#11 exporting manifest sha256:9e3bef8d15da27d898b6c67bd3aab162e9af8fe8fd490c4f8b6cfb533ce04c3b 0.1s done
+#11 exporting config sha256:c81accfecf0a852168bc68cd408797847561a5e0fc09d3072e6cdb8bb3dd4ccb 0.1s done
+#11 naming to docker.io/toll-wallet/vehicle-registry:1.0
+#11 naming to docker.io/toll-wallet/vehicle-registry:1.0 0.0s done
+#11 DONE 19.1s
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 236B 0.0s done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/python:3.12-slim
+#2 DONE 3.8s
+
+#3 [internal] load .dockerignore
+#3 transferring context: 114B 0.0s done
+#3 DONE 0.0s
+
+#4 [internal] load build context
+#4 transferring context: 8.07kB 0.0s done
+#4 DONE 0.1s
+
+#5 [1/5] FROM docker.io/library/python:3.12-slim@sha256:b18b261e1b4974b4f321451ad5251ded85abb22c2b8b262da527dda1d031ab30
+#5 resolve docker.io/library/python:3.12-slim@sha256:b18b261e1b4974b4f321451ad5251ded85abb22c2b8b262da527dda1d031ab30 0.2s done
+#5 DONE 0.2s
+
+#6 [2/5] WORKDIR /app
+#6 CACHED
+
+#7 [3/5] COPY requirements.txt .
+#7 DONE 0.1s
+
+#8 [4/5] RUN pip install --no-cache-dir -r requirements.txt
+#8 11.09 Collecting annotated-doc==0.0.5 (from -r requirements.txt (line 1))
+#8 11.31   Downloading annotated_doc-0.0.5-py3-none-any.whl.metadata (6.5 kB)
+#8 11.40 Collecting annotated-types==0.8.0 (from -r requirements.txt (line 2))
+#8 11.45   Downloading annotated_types-0.8.0-py3-none-any.whl.metadata (15 kB)
+#8 11.66 Collecting anyio==4.15.1 (from -r requirements.txt (line 3))
+#8 11.72   Downloading anyio-4.15.1-py3-none-any.whl.metadata (4.7 kB)
+#8 11.91 Collecting click==8.5.0 (from -r requirements.txt (line 4))
+#8 11.97   Downloading click-8.5.0-py3-none-any.whl.metadata (2.6 kB)
+#8 12.64 Collecting fastapi==0.162.0 (from -r requirements.txt (line 5))
+#8 12.69   Downloading fastapi-0.162.0-py3-none-any.whl.metadata (26 kB)
+#8 12.90 Collecting h11==0.16.0 (from -r requirements.txt (line 6))
+#8 12.96   Downloading h11-0.16.0-py3-none-any.whl.metadata (8.3 kB)
+#8 13.14 Collecting idna==3.20 (from -r requirements.txt (line 7))
+#8 13.21   Downloading idna-3.20-py3-none-any.whl.metadata (7.2 kB)
+#8 14.63 Collecting pydantic==2.14.1 (from -r requirements.txt (line 8))
+#8 14.68   Downloading pydantic-2.14.1-py3-none-any.whl.metadata (133 kB)
+#8 20.62 Collecting pydantic_core==2.50.1 (from -r requirements.txt (line 9))
+#8 20.68   Downloading pydantic_core-2.50.1-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (6.5 kB)
+#8 20.93 Collecting starlette==1.9.0 (from -r requirements.txt (line 10))
+#8 20.98   Downloading starlette-1.9.0-py3-none-any.whl.metadata (6.6 kB)
+#8 21.06 Collecting typing-inspection==0.4.4 (from -r requirements.txt (line 11))
+#8 21.11   Downloading typing_inspection-0.4.4-py3-none-any.whl.metadata (2.6 kB)
+#8 21.31 Collecting typing_extensions==4.16.0 (from -r requirements.txt (line 12))
+#8 21.37   Downloading typing_extensions-4.16.0-py3-none-any.whl.metadata (3.3 kB)
+#8 21.69 Collecting uvicorn==0.54.0 (from -r requirements.txt (line 13))
+#8 21.75   Downloading uvicorn-0.54.0-py3-none-any.whl.metadata (6.6 kB)
+#8 22.26 Collecting opentelemetry-api>=1.44.0 (from fastapi==0.162.0->-r requirements.txt (line 5))
+#8 22.33   Downloading opentelemetry_api-1.45.2-py3-none-any.whl.metadata (1.4 kB)
+#8 22.63 Downloading annotated_doc-0.0.5-py3-none-any.whl (5.3 kB)
+#8 22.68 Downloading annotated_types-0.8.0-py3-none-any.whl (13 kB)
+#8 22.72 Downloading anyio-4.15.1-py3-none-any.whl (132 kB)
+#8 22.79 Downloading click-8.5.0-py3-none-any.whl (125 kB)
+#8 22.84 Downloading fastapi-0.162.0-py3-none-any.whl (148 kB)
+#8 22.89 Downloading h11-0.16.0-py3-none-any.whl (37 kB)
+#8 22.94 Downloading idna-3.20-py3-none-any.whl (69 kB)
+#8 23.01 Downloading pydantic-2.14.1-py3-none-any.whl (488 kB)
+#8 23.14 Downloading pydantic_core-2.50.1-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (2.2 MB)
+#8 23.48    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 2.2/2.2 MB 6.2 MB/s eta 0:00:00
+#8 23.54 Downloading starlette-1.9.0-py3-none-any.whl (80 kB)
+#8 23.59 Downloading typing_inspection-0.4.4-py3-none-any.whl (14 kB)
+#8 23.64 Downloading typing_extensions-4.16.0-py3-none-any.whl (45 kB)
+#8 23.69 Downloading uvicorn-0.54.0-py3-none-any.whl (87 kB)
+#8 23.74 Downloading opentelemetry_api-1.45.2-py3-none-any.whl (60 kB)
+#8 24.12 Installing collected packages: typing_extensions, idna, h11, click, annotated-types, annotated-doc, uvicorn, typing-inspection, pydantic_core, opentelemetry-api, anyio, starlette, pydantic, fastapi
+#8 31.78 Successfully installed annotated-doc-0.0.5 annotated-types-0.8.0 anyio-4.15.1 click-8.5.0 fastapi-0.162.0 h11-0.16.0 idna-3.20 opentelemetry-api-1.45.2 pydantic-2.14.1 pydantic_core-2.50.1 starlette-1.9.0 typing-inspection-0.4.4 typing_extensions-4.16.0 uvicorn-0.54.0
+#8 31.79 WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
+#8 32.61 
+#8 32.61 [notice] A new release of pip is available: 25.0.1 -> 26.3
+#8 32.61 [notice] To update, run: pip install --upgrade pip
+#8 DONE 33.6s
+
+#9 [5/5] COPY app.py .
+#9 DONE 0.2s
+
+#10 exporting to image
+#10 exporting layers
+#10 exporting layers 7.2s done
+#10 exporting manifest sha256:d157666934a299bc424c068d07217bb6646647ddcd76fbb49122af2297b1f574 0.0s done
+#10 exporting config sha256:71d8cfb1b8d7617588765b6d826761fbd30aa6d8cdcd746633e4b19d8eb4eb40 0.0s done
+#10 naming to docker.io/toll-wallet/notification:1.0 0.0s done
+#10 DONE 7.3s
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 594B 0.0s done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/python:3.12-slim
+#2 DONE 0.5s
+
+#3 [internal] load .dockerignore
+#3 transferring context: 82B 0.0s done
+#3 DONE 0.0s
+
+#4 [internal] load build context
+#4 DONE 0.0s
+
+#5 [1/6] FROM docker.io/library/python:3.12-slim@sha256:b18b261e1b4974b4f321451ad5251ded85abb22c2b8b262da527dda1d031ab30
+#5 resolve docker.io/library/python:3.12-slim@sha256:b18b261e1b4974b4f321451ad5251ded85abb22c2b8b262da527dda1d031ab30 0.1s done
+#5 DONE 0.2s
+
+#4 [internal] load build context
+#4 transferring context: 6.38kB 0.0s done
+#4 DONE 0.0s
+
+#6 [2/6] WORKDIR /app
+#6 CACHED
+
+#7 [3/6] COPY requirements.txt .
+#7 CACHED
+
+#8 [4/6] RUN pip install --no-cache-dir -r requirements.txt
+#8 CACHED
+
+#9 [5/6] COPY app ./app
+#9 DONE 0.1s
+
+#10 [6/6] RUN useradd --create-home appuser
+#10 DONE 1.1s
+
+#11 exporting to image
+#11 exporting layers
+#11 exporting layers 0.4s done
+#11 exporting manifest sha256:5442627d44dd0549b90432ff13bb9e25bd27733a545b1e7fcbfc63eba7579143 0.1s done
+#11 exporting config sha256:bed781efb60c91eeb01e4b7cccb31f017ee37a1420c0bec47916eb34cf81f8bd 0.1s done
+#11 naming to docker.io/toll-wallet/mock-bank:1.0
+#11 naming to docker.io/toll-wallet/mock-bank:1.0 0.0s done
+#11 DONE 0.6s
+== Namespace, secret (from .env, never committed) and schema config maps ==
+namespace/toll-wallet created
+secret/db-credentials created
+configmap/wallet-schema created
+configmap/toll-schema created
+configmap/registry-schema created
+== Databases and services ==
+namespace/toll-wallet unchanged
+persistentvolumeclaim/registry-db-data created
+deployment.apps/registry-db created
+service/registry-db created
+persistentvolumeclaim/toll-db-data created
+deployment.apps/toll-db created
+service/toll-db created
+persistentvolumeclaim/wallet-db-data created
+deployment.apps/wallet-db created
+service/wallet-db created
+deployment.apps/mock-bank created
+service/mock-bank created
+deployment.apps/notification created
+service/notification created
+deployment.apps/toll-transaction created
+service/toll-transaction created
+deployment.apps/vehicle-registry created
+service/vehicle-registry created
+deployment.apps/wallet created
+service/wallet created
+Waiting for deployment "mock-bank" rollout to finish: 0 of 1 updated replicas are available...
+deployment "mock-bank" successfully rolled out
+deployment "notification" successfully rolled out
+Waiting for deployment "registry-db" rollout to finish: 0 of 1 updated replicas are available...
+deployment "registry-db" successfully rolled out
+Waiting for deployment "toll-db" rollout to finish: 0 of 1 updated replicas are available...
+deployment "toll-db" successfully rolled out
+Waiting for deployment "toll-transaction" rollout to finish: 0 of 2 updated replicas are available...
+Waiting for deployment "toll-transaction" rollout to finish: 1 of 2 updated replicas are available...
+deployment "toll-transaction" successfully rolled out
+Waiting for deployment "vehicle-registry" rollout to finish: 0 of 2 updated replicas are available...
+Waiting for deployment "vehicle-registry" rollout to finish: 1 of 2 updated replicas are available...
+deployment "vehicle-registry" successfully rolled out
+deployment "wallet" successfully rolled out
+deployment "wallet-db" successfully rolled out
+NAME                                READY   STATUS    RESTARTS   AGE     IP            NODE       NOMINATED NODE   READINESS GATES
+mock-bank-f7d8bf58d-9cqdp           1/1     Running   0          6m1s    10.244.0.6    minikube   <none>           <none>
+notification-7b9f5fd9c9-d4gxd       1/1     Running   0          6m1s    10.244.0.7    minikube   <none>           <none>
+registry-db-797968977d-jdt2n        1/1     Running   0          6m3s    10.244.0.3    minikube   <none>           <none>
+toll-db-67bb9fdddb-lsjrz            1/1     Running   0          6m2s    10.244.0.4    minikube   <none>           <none>
+toll-transaction-865d6897fc-bwpv6   1/1     Running   0          6m      10.244.0.8    minikube   <none>           <none>
+toll-transaction-865d6897fc-vtsdv   1/1     Running   0          6m      10.244.0.9    minikube   <none>           <none>
+vehicle-registry-c75d8889c-57xzf    1/1     Running   0          5m59s   10.244.0.10   minikube   <none>           <none>
+vehicle-registry-c75d8889c-pnjh9    1/1     Running   0          5m59s   10.244.0.11   minikube   <none>           <none>
+wallet-5f8d568b7d-lz77v             1/1     Running   0          5m58s   10.244.0.13   minikube   <none>           <none>
+wallet-5f8d568b7d-qdcv2             1/1     Running   0          5m58s   10.244.0.12   minikube   <none>           <none>
+wallet-db-58797bcfdb-mxxf8          1/1     Running   0          6m2s    10.244.0.5    minikube   <none>           <none>

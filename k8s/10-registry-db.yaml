@@ -1,0 +1,44 @@
+# registry-db: MySQL for one service only (database-per-service); credentials come from the db-credentials Secret
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata: {name: registry-db-data, namespace: toll-wallet}
+spec:
+  accessModes: [ReadWriteOnce]
+  resources: {requests: {storage: 1Gi}}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata: {name: registry-db, namespace: toll-wallet}
+spec:
+  replicas: 1
+  strategy: {type: Recreate}   # one pod at a time may own the volume
+  selector: {matchLabels: {app: registry-db}}
+  template:
+    metadata: {labels: {app: registry-db}}
+    spec:
+      containers:
+        - name: mysql
+          image: mysql:8.0
+          env:
+            - {name: MYSQL_DATABASE, value: registry_db}
+            - {name: MYSQL_ROOT_PASSWORD, valueFrom: {secretKeyRef: {name: db-credentials, key: MYSQL_ROOT_PASSWORD}}}
+            - {name: MYSQL_USER, valueFrom: {secretKeyRef: {name: db-credentials, key: REGISTRY_DB_USER}}}
+            - {name: MYSQL_PASSWORD, valueFrom: {secretKeyRef: {name: db-credentials, key: REGISTRY_DB_PASSWORD}}}
+          ports: [{containerPort: 3306}]
+          readinessProbe:
+            exec: {command: ["sh", "-c", "mysqladmin ping -h 127.0.0.1 -uroot -p$MYSQL_ROOT_PASSWORD"]}
+            initialDelaySeconds: 10
+            periodSeconds: 5
+          volumeMounts:
+            - {name: data, mountPath: /var/lib/mysql}
+            - {name: schema, mountPath: /docker-entrypoint-initdb.d}
+      volumes:
+        - {name: data, persistentVolumeClaim: {claimName: registry-db-data}}
+        - {name: schema, configMap: {name: registry-schema}}
+---
+apiVersion: v1
+kind: Service
+metadata: {name: registry-db, namespace: toll-wallet}
+spec:
+  selector: {app: registry-db}
+  ports: [{port: 3306}]

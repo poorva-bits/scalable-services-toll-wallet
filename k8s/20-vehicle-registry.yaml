@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata: {name: vehicle-registry, namespace: toll-wallet, labels: {app: vehicle-registry}}
+spec:
+  replicas: 2
+  selector: {matchLabels: {app: vehicle-registry}}
+  template:
+    metadata: {labels: {app: vehicle-registry}}
+    spec:
+      initContainers:   # wait until this service's own database accepts connections
+        - name: wait-for-db
+          image: toll-wallet/vehicle-registry:1.0
+          imagePullPolicy: Never
+          command: ["python", "-c", "import socket,time\nwhile True:\n  try: socket.create_connection(('registry-db',3306),2); break\n  except OSError: print('waiting for registry-db'); time.sleep(2)"]
+      containers:
+        - name: vehicle-registry
+          image: toll-wallet/vehicle-registry:1.0
+          imagePullPolicy: Never   # built inside Minikube by deploy.sh
+          ports: [{containerPort: 8003}]
+          env:
+            - {name: DB_USER, valueFrom: {secretKeyRef: {name: db-credentials, key: REGISTRY_DB_USER}}}
+            - {name: DB_PASSWORD, valueFrom: {secretKeyRef: {name: db-credentials, key: REGISTRY_DB_PASSWORD}}}
+            - {name: DATABASE_URL, value: "mysql+pymysql://$(DB_USER):$(DB_PASSWORD)@registry-db:3306/registry_db"}
+          readinessProbe: {httpGet: {path: /health, port: 8003}, periodSeconds: 5}
+          livenessProbe: {httpGet: {path: /health, port: 8003}, initialDelaySeconds: 10, periodSeconds: 10}
+          resources: {requests: {cpu: 50m, memory: 96Mi}, limits: {cpu: 500m, memory: 256Mi}}
+---
+apiVersion: v1
+kind: Service
+metadata: {name: vehicle-registry, namespace: toll-wallet}
+spec:
+  selector: {app: vehicle-registry}
+  ports: [{port: 8003, targetPort: 8003}]

@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata: {name: notification, namespace: toll-wallet, labels: {app: notification}}
+spec:
+  replicas: 1
+  selector: {matchLabels: {app: notification}}
+  template:
+    metadata: {labels: {app: notification}}
+    spec:
+      containers:
+        - name: notification
+          image: toll-wallet/notification:1.0
+          imagePullPolicy: Never   # built inside Minikube by deploy.sh
+          ports: [{containerPort: 8004}]
+          env:
+            - {name: DB_PATH, value: /tmp/notification.db}
+          readinessProbe: {httpGet: {path: /health, port: 8004}, periodSeconds: 5}
+          livenessProbe: {httpGet: {path: /health, port: 8004}, initialDelaySeconds: 10, periodSeconds: 10}
+          resources: {requests: {cpu: 50m, memory: 96Mi}, limits: {cpu: 500m, memory: 256Mi}}
+---
+apiVersion: v1
+kind: Service
+metadata: {name: notification, namespace: toll-wallet}
+spec:
+  selector: {app: notification}
+  ports: [{port: 8004, targetPort: 8004}]
