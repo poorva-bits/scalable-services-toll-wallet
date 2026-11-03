@@ -21,3 +21,14 @@ CREATE TABLE IF NOT EXISTS crossing_status_history (
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   FOREIGN KEY (crossing_id) REFERENCES crossings(id)
 ) ENGINE=InnoDB;
+
+-- Challenge 2: one row per Idempotency-Key with a fingerprint of the request and the stored response
+CREATE TABLE IF NOT EXISTS idempotency_keys (
+  idem_key VARCHAR(128) PRIMARY KEY,
+  request_hash CHAR(64) NOT NULL,
+  status ENUM('IN_PROGRESS','DONE') NOT NULL DEFAULT 'IN_PROGRESS',
+  response_code INT NULL,
+  response_body JSON NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB;
