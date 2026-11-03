@@ -1,0 +1,34 @@
+$ docker compose ps -a
+SERVICE            STATUS                          PORTS
+mock-bank          Up About a minute (healthy)     0.0.0.0:8005->8005/tcp
+notification       Up About a minute (unhealthy)   8000/tcp, 0.0.0.0:8004->8004/tcp
+registry-db        Up About a minute (healthy)     3306/tcp, 33060/tcp
+toll-db            Up About a minute (healthy)     3306/tcp, 33060/tcp
+toll-transaction   Created                         
+vehicle-registry   Up 52 seconds (healthy)         0.0.0.0:8003->8003/tcp
+wallet             Up 37 seconds (healthy)         0.0.0.0:8001->8001/tcp
+wallet-db          Up About a minute (healthy)     3306/tcp, 33060/tcp
+
+$ docker compose logs notification
+INFO:     Started server process [1]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
+
+$ docker inspect --format "{{json .State.Health}}" <notification container>
+Status: unhealthy FailingStreak: 6
+Last probe output: urllib.error.URLError: <urlopen error [Errno 111] Connection refused>
+
+$ docker compose exec notification python -c "...urlopen(http://localhost:8000/health)"
+{"status":"UP","service":"notification","mode":"mock"}
+
+$ grep -n 8000 services/notification/Dockerfile; grep -n -A6 "^  notification:" docker-compose.yml
+6:EXPOSE 8000
+7:CMD ["uvicorn","app:app","--host","0.0.0.0","--port","8000"]
+66:  notification:
+67-    build: ./services/notification
+68-    ports:
+69-      - "8004:8004"
+70-    healthcheck:
+71-      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8004/health')"]
+72-      interval: 10s

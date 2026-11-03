@@ -1,0 +1,67 @@
+$ git diff services/notification/Dockerfile
+diff --git a/services/notification/Dockerfile b/services/notification/Dockerfile
+index 950aff9..9f4d23c 100644
+--- a/services/notification/Dockerfile
++++ b/services/notification/Dockerfile
+@@ -3,5 +3,5 @@ WORKDIR /app
+ COPY requirements.txt .
+ RUN pip install --no-cache-dir -r requirements.txt
+ COPY app.py .
+-EXPOSE 8000
+-CMD ["uvicorn","app:app","--host","0.0.0.0","--port","8000"]
++EXPOSE 8004
++CMD ["uvicorn","app:app","--host","0.0.0.0","--port","8004"]
+
+$ docker compose up --build -d --wait
+ Container scalable-services-toll-wallet-vehicle-registry-1  Healthy
+ Container scalable-services-toll-wallet-toll-db-1  Healthy
+ Container scalable-services-toll-wallet-toll-transaction-1  Healthy
+
+$ docker compose ps
+SERVICE            STATUS                    PORTS
+mock-bank          Up 57 seconds (healthy)   0.0.0.0:8005->8005/tcp
+notification       Up 57 seconds (healthy)   0.0.0.0:8004->8004/tcp
+registry-db        Up 4 minutes (healthy)    3306/tcp, 33060/tcp
+toll-db            Up 4 minutes (healthy)    3306/tcp, 33060/tcp
+toll-transaction   Up 13 seconds (healthy)   0.0.0.0:8002->8002/tcp
+vehicle-registry   Up 57 seconds (healthy)   0.0.0.0:8003->8003/tcp
+wallet             Up 26 seconds (healthy)   0.0.0.0:8001->8001/tcp
+wallet-db          Up 4 minutes (healthy)    3306/tcp, 33060/tcp
+
+$ curl localhost:8004/health
+{"status":"UP","service":"notification","mode":"mock"}
+
+$ python scripts/e2e_test.py
+=== 0. All services healthy ===
+  [PASS] wallet /health  (HTTP 200)
+  [PASS] toll-transaction /health  (HTTP 200)
+  [PASS] vehicle-registry /health  (HTTP 200)
+  [PASS] notification /health  (HTTP 200)
+  [PASS] mock-bank /health  (HTTP 200)
+
+=== 1. Setup: wallet, top-up through the bank, vehicle ===
+  [PASS] top-up of 20000 via Mock Bank  (HTTP 200)
+  [PASS] vehicle registered  (HTTP 201)
+
+=== 2. Main transaction: crossing -> Registry -> Wallet -> Notification ===
+  [PASS] crossing returns 201 COMPLETED  (HTTP 201)
+  [PASS] wallet charged once: balance 15000  (balance 15000)
+  [PASS] ledger DEDUCT uses reference crossing-<id>
+
+=== 3. Failure path: insufficient balance ===
+  [PASS] 409 INSUFFICIENT_BALANCE  (HTTP 409)
+  [PASS] crossing recorded as FAILED
+  [PASS] balance unchanged at 15000
+
+=== 4. Failure path: deactivated vehicle (BR5) ===
+  [PASS] 409 VEHICLE_INACTIVE  (HTTP 409)
+  [PASS] balance unchanged at 15000
+
+=== 5. Failure path: unregistered vehicle ===
+  [PASS] 404 VEHICLE_NOT_FOUND  (HTTP 404)
+
+=== 6. Failure path: bank down during top-up ===
+  [PASS] 502 BANK_UNAVAILABLE after retries  (HTTP 502)
+  [PASS] balance unchanged at 15000
+
+RESULT: PASS (0 failed checks)
