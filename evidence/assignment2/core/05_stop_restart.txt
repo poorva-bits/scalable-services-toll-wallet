@@ -1,0 +1,32 @@
+$ curl localhost:8001/api/v1/wallets/7   (before)
+{"id":7,"fleet_id":"a2-fleet-1793721278","balance":25000}
+
+$ docker compose down
+ Container scalable-services-toll-wallet-registry-db-1  Removed
+ Network scalable-services-toll-wallet_default  Removing
+ Network scalable-services-toll-wallet_default  Removed
+
+$ docker compose ps   (nothing running)
+
+$ docker compose up -d --wait
+ Container scalable-services-toll-wallet-vehicle-registry-1  Healthy
+ Container scalable-services-toll-wallet-toll-transaction-1  Healthy
+
+$ docker compose ps
+SERVICE            STATUS
+mock-bank          Up 53 seconds (healthy)
+notification       Up 53 seconds (healthy)
+registry-db        Up 53 seconds (healthy)
+toll-db            Up 53 seconds (healthy)
+toll-transaction   Up 12 seconds (healthy)
+vehicle-registry   Up 40 seconds (healthy)
+wallet             Up 24 seconds (healthy)
+wallet-db          Up 53 seconds (healthy)
+
+$ curl localhost:8001/api/v1/wallets/7   (after restart: data kept in Docker volumes)
+{"id":7,"fleet_id":"a2-fleet-1793721278","balance":25000}
+$ curl localhost:8003/api/v1/vehicles/A2-TRUCK-1793721278
+{"vehicle_id":"A2-TRUCK-1793721278","fleet_id":"a2-fleet-1793721278","wallet_id":7,"active":true}
+
+$ python scripts/e2e_test.py   (workflow works again)
+RESULT: PASS (0 failed checks)

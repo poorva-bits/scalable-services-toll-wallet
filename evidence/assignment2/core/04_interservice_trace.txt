@@ -1,0 +1,11 @@
+$ curl -X POST localhost:8002/api/v1/crossings -H 'Idempotency-Key: a2-1793721278' -H 'X-Request-ID: a2-trace-1793721278' -d '{"vehicle_id":"A2-TRUCK-1793721278","gate_id":"G1","amount":5000}'
+{"id":15,"vehicle_id":"A2-TRUCK-1793721278","gate_id":"G1","wallet_id":7,"amount":5000,"status":"COMPLETED","failure_reason":null,"created_at":"2026-11-03T15:54:38","updated_at":"2026-11-03T15:54:39"}
+
+$ docker compose logs | grep a2-trace-1793721278   (one request id across four services)
+vehicle-registry-1  | 2026-11-03 15:54:39,048 INFO rid=a2-trace-1793721278 GET /api/v1/vehicles/A2-TRUCK-1793721278
+notification-1      | {"event": "request_complete", "service": "notification", "request_id": "a2-trace-1793721278", "method": "POST", "path": "/api/v1/notifications", "status_code": 422, "duration_ms": 3.65}
+wallet-1            | 2026-11-03 15:54:39,217 INFO rid=a2-trace-1793721278 POST /api/v1/wallets/7/deduct
+toll-transaction-1  | 2026-11-03 15:54:38,905 INFO rid=a2-trace-1793721278 POST /api/v1/crossings
+
+$ curl localhost:8001/api/v1/wallets/7
+{"id":7,"fleet_id":"a2-fleet-1793721278","balance":25000}

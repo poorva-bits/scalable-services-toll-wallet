@@ -1,0 +1,21 @@
+$ docker compose build
+#16 naming to docker.io/library/scalable-services-toll-wallet-notification:latest
+#16 naming to docker.io/library/scalable-services-toll-wallet-notification:latest 0.1s done
+#25 naming to docker.io/library/scalable-services-toll-wallet-vehicle-registry:latest 0.0s done
+#26 naming to docker.io/library/scalable-services-toll-wallet-mock-bank:latest 0.0s done
+#36 naming to docker.io/library/scalable-services-toll-wallet-wallet:latest
+#36 naming to docker.io/library/scalable-services-toll-wallet-wallet:latest 0.0s done
+#44 naming to docker.io/library/scalable-services-toll-wallet-toll-transaction:latest 0.0s done
+ mock-bank  Built
+ notification  Built
+ toll-transaction  Built
+ vehicle-registry  Built
+ wallet  Built
+
+$ docker images (one image per service)
+REPOSITORY                                       TAG          SIZE
+scalable-services-toll-wallet-notification       latest       214MB
+scalable-services-toll-wallet-vehicle-registry   latest       285MB
+scalable-services-toll-wallet-mock-bank          latest       285MB
+scalable-services-toll-wallet-toll-transaction   latest       299MB
+scalable-services-toll-wallet-wallet             latest       298MB

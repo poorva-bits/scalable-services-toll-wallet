@@ -1,0 +1,10 @@
+$ docker compose ps
+NAME                                               IMAGE                                                                     STATUS                        PORTS
+scalable-services-toll-wallet-mock-bank-1          sha256:29d99684cb7f64532397d488a02291ff50a23ab58d2fddea330bf72586e0d486   Up 2 minutes (healthy)        0.0.0.0:8005->8005/tcp
+scalable-services-toll-wallet-notification-1       sha256:6d0b84fc9d6fb9955d0c95d9f2a025971264398659ec3ee62128d0a544dbb4b0   Up 2 minutes (healthy)        0.0.0.0:8004->8004/tcp
+scalable-services-toll-wallet-registry-db-1        mysql:8.0                                                                 Up 6 minutes (healthy)        3306/tcp, 33060/tcp
+scalable-services-toll-wallet-toll-db-1            mysql:8.0                                                                 Up 6 minutes (healthy)        3306/tcp, 33060/tcp
+scalable-services-toll-wallet-toll-transaction-1   sha256:2a311b3fafed42396a0ffa26f0ad01343b8e41495f174afadf885a54100f7e18   Up About a minute (healthy)   0.0.0.0:8002->8002/tcp
+scalable-services-toll-wallet-vehicle-registry-1   sha256:a909719c71cf37d562deb1ccc1d3e2bae055ce44a617f0bd46c9bcc87b4506d3   Up 2 minutes (healthy)        0.0.0.0:8003->8003/tcp
+scalable-services-toll-wallet-wallet-1             sha256:b6dc8822474448da1fc1d706750de4888b777c175fb60ba044ff11b6d50702a5   Up 2 minutes (healthy)        0.0.0.0:8001->8001/tcp
+scalable-services-toll-wallet-wallet-db-1          mysql:8.0                                                                 Up 6 minutes (healthy)        3306/tcp, 33060/tcp
