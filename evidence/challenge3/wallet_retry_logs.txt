@@ -1,0 +1,32 @@
+2026-11-03 14:44:18,108 INFO rid=c3-ok-f4afc4 bank collect ref=c3-ok-f4afc4 ok attempt=1/4 replayed=False
+2026-11-03 14:44:18,163 WARNING rid=c3-flaky-6527ec bank collect ref=c3-flaky-6527ec attempt=1/4 failed (status 503); retrying in 0.23s
+2026-11-03 14:44:18,418 WARNING rid=c3-flaky-6527ec bank collect ref=c3-flaky-6527ec attempt=2/4 failed (status 503); retrying in 0.52s
+2026-11-03 14:44:18,972 INFO rid=c3-flaky-6527ec bank collect ref=c3-flaky-6527ec ok attempt=3/4 replayed=False
+2026-11-03 14:44:21,040 WARNING rid=c3-slow-faced8 bank collect ref=c3-slow-faced8 attempt=1/4 failed (timeout after 2.0s); retrying in 0.02s
+2026-11-03 14:44:23,070 WARNING rid=c3-slow-faced8 bank collect ref=c3-slow-faced8 attempt=2/4 failed (timeout after 2.0s); retrying in 0.97s
+2026-11-03 14:44:26,049 WARNING rid=c3-slow-faced8 bank collect ref=c3-slow-faced8 attempt=3/4 failed (timeout after 2.0s); retrying in 0.35s
+2026-11-03 14:44:28,415 ERROR rid=c3-slow-faced8 bank collect ref=c3-slow-faced8 gave up after 4 attempts (timeout after 2.0s)
+2026-11-03 14:44:28,442 WARNING rid=c3-fail-f72f6b bank collect ref=c3-fail-f72f6b attempt=1/4 failed (status 503); retrying in 0.43s
+2026-11-03 14:44:28,884 WARNING rid=c3-fail-f72f6b bank collect ref=c3-fail-f72f6b attempt=2/4 failed (status 503); retrying in 0.67s
+2026-11-03 14:44:29,574 WARNING rid=c3-fail-f72f6b bank collect ref=c3-fail-f72f6b attempt=3/4 failed (status 503); retrying in 1.41s
+2026-11-03 14:44:31,006 ERROR rid=c3-fail-f72f6b bank collect ref=c3-fail-f72f6b gave up after 4 attempts (status 503)
+2026-11-03 14:44:31,845 WARNING rid=c3-down-71bd61 bank collect ref=c3-down-71bd61 attempt=1/4 failed (ConnectError: [Errno -2] Name or service not known); retrying in 0.00s
+2026-11-03 14:44:31,865 WARNING rid=c3-down-71bd61 bank collect ref=c3-down-71bd61 attempt=2/4 failed (ConnectError: [Errno -2] Name or service not known); retrying in 0.72s
+2026-11-03 14:44:32,602 WARNING rid=c3-down-71bd61 bank collect ref=c3-down-71bd61 attempt=3/4 failed (ConnectError: [Errno -2] Name or service not known); retrying in 0.51s
+2026-11-03 14:44:33,127 ERROR rid=c3-down-71bd61 bank collect ref=c3-down-71bd61 gave up after 4 attempts (ConnectError: [Errno -2] Name or service not known)
+2026-11-03 14:44:55,283 INFO rid=c3-ok-c36000 bank collect ref=c3-ok-c36000 ok attempt=1/4 replayed=False
+2026-11-03 14:44:55,321 WARNING rid=c3-flaky-02f6e6 bank collect ref=c3-flaky-02f6e6 attempt=1/4 failed (status 503); retrying in 0.00s
+2026-11-03 14:44:55,340 WARNING rid=c3-flaky-02f6e6 bank collect ref=c3-flaky-02f6e6 attempt=2/4 failed (status 503); retrying in 0.79s
+2026-11-03 14:44:56,154 INFO rid=c3-flaky-02f6e6 bank collect ref=c3-flaky-02f6e6 ok attempt=3/4 replayed=False
+2026-11-03 14:44:58,188 WARNING rid=c3-slow-5a616d bank collect ref=c3-slow-5a616d attempt=1/4 failed (timeout after 2.0s); retrying in 0.24s
+2026-11-03 14:45:00,441 WARNING rid=c3-slow-5a616d bank collect ref=c3-slow-5a616d attempt=2/4 failed (timeout after 2.0s); retrying in 0.42s
+2026-11-03 14:45:02,879 WARNING rid=c3-slow-5a616d bank collect ref=c3-slow-5a616d attempt=3/4 failed (timeout after 2.0s); retrying in 1.08s
+2026-11-03 14:45:05,984 ERROR rid=c3-slow-5a616d bank collect ref=c3-slow-5a616d gave up after 4 attempts (timeout after 2.0s)
+2026-11-03 14:45:06,014 WARNING rid=c3-fail-b57207 bank collect ref=c3-fail-b57207 attempt=1/4 failed (status 503); retrying in 0.27s
+2026-11-03 14:45:06,300 WARNING rid=c3-fail-b57207 bank collect ref=c3-fail-b57207 attempt=2/4 failed (status 503); retrying in 0.08s
+2026-11-03 14:45:06,399 WARNING rid=c3-fail-b57207 bank collect ref=c3-fail-b57207 attempt=3/4 failed (status 503); retrying in 0.03s
+2026-11-03 14:45:06,447 ERROR rid=c3-fail-b57207 bank collect ref=c3-fail-b57207 gave up after 4 attempts (status 503)
+2026-11-03 14:45:09,432 WARNING rid=c3-down-c02aa0 bank collect ref=c3-down-c02aa0 attempt=1/4 failed (ConnectError: [Errno -2] Name or service not known); retrying in 0.01s
+2026-11-03 14:45:09,467 WARNING rid=c3-down-c02aa0 bank collect ref=c3-down-c02aa0 attempt=2/4 failed (ConnectError: [Errno -2] Name or service not known); retrying in 0.29s
+2026-11-03 14:45:09,777 WARNING rid=c3-down-c02aa0 bank collect ref=c3-down-c02aa0 attempt=3/4 failed (ConnectError: [Errno -2] Name or service not known); retrying in 0.53s
+2026-11-03 14:45:10,332 ERROR rid=c3-down-c02aa0 bank collect ref=c3-down-c02aa0 gave up after 4 attempts (ConnectError: [Errno -2] Name or service not known)
