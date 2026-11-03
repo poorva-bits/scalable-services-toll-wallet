@@ -1,0 +1,9 @@
+$ SELECT id, vehicle_id, status, wallet_id, amount FROM crossings WHERE vehicle_id='C2-TRUCK-d52b55'
+id	vehicle_id	status	wallet_id	amount
+1	C2-TRUCK-d52b55	COMPLETED	3	5000
+2	C2-TRUCK-d52b55	COMPLETED	3	5000
+
+$ SELECT idem_key, status, response_code, LEFT(request_hash,16) hash FROM idempotency_keys WHERE idem_key LIKE 'c2-%'
+idem_key	status	response_code	hash
+c2-par-d52b55	DONE	201	4ebb4ef19d47ef52
+c2-seq-d52b55	DONE	201	4ebb4ef19d47ef52
